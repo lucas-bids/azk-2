@@ -1,15 +1,34 @@
+import CardDark from "./Card.js";
+import Header from "./Header";
 import MenuBar from "./MenuBar";
 
 const Dashboard = () => {
   return (
     <div className="flex w-screen">
-      <div className="w-1/12">
-        <MenuBar />
-      </div>
+      <MenuBar />
       <main className=" w-2/3">
-        <header className="pt-3">
-          <h1 className="text-4xl">Hello, Lucas</h1>
-        </header>
+        <Header />
+        <section className="w-full mt-4">
+          <CardDark backgroundType="liquid">
+            <h2>This month alone</h2>
+            <div className="flex mt-4 justify-around">
+              <div>
+                <p className=" text-6xl font-medium">56.4</p>
+                <p className="mt-2">Hours input</p>
+              </div>
+              <div className="border border-white"></div>
+              <div>
+                <p className=" text-6xl font-medium">1,378.45 €</p>
+                <p className="mt-2">Cash generated</p>
+              </div>
+              <div className="border border-white"></div>
+              <div>
+                <p className=" text-6xl font-medium">128</p>
+                <p className="mt-2">Tasks input</p>
+              </div>
+            </div>
+          </CardDark>
+        </section>
       </main>
     </div>
   );

@@ -9,26 +9,28 @@ import logoutIcon from "../assets/images/icons/log-out.svg";
 
 const MenuBar = (props) => {
   return (
-    <div className="p-3 h-[800px]">
-      <nav className=" bg-white rounded-2xl shadow-md h-full flex flex-col justify-between items-center">
-        <button>
-          <img className="w-20 p-4" src={purpleLogo} alt="" />
-        </button>
-        <div className="flex flex-col">
+    <div className="w-1/12 flex justify-center">
+      <div className="p-3 h-[800px] w-fit">
+        <nav className=" bg-white rounded-2xl shadow-md h-full flex flex-col justify-between items-center">
           <button>
-            <img className="w-18 p-4" src={homeIcon} alt="" />
+            <img className="w-20 p-4" src={purpleLogo} alt="" />
           </button>
+          <div className="flex flex-col">
+            <button>
+              <img className="w-18 p-4" src={homeIcon} alt="" />
+            </button>
+            <button>
+              <img className="w-18 p-4" src={clientsIcon} alt="" />
+            </button>
+            <button>
+              <img className="w-18 p-4" src={reportsIcon} alt="" />
+            </button>
+          </div>
           <button>
-            <img className="w-18 p-4" src={clientsIcon} alt="" />
+            <img className="w-18 p-4" src={logoutIcon} alt="" />
           </button>
-          <button>
-            <img className="w-18 p-4" src={reportsIcon} alt="" />
-          </button>
-        </div>
-        <button>
-          <img className="w-18 p-4" src={logoutIcon} alt="" />
-        </button>
-      </nav>
+        </nav>
+      </div>
     </div>
   );
 };

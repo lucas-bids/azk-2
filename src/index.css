@@ -12,6 +12,9 @@
         @apply text-2xl; 
         @apply font-medium;
     }
+    h2 {
+        @apply text-xl;
+    }
     p {
         @apply font-light;
     }

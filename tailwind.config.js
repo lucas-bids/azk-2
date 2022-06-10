@@ -6,7 +6,8 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        "liquid": "url('../src/assets/images/login-screen.jpg')"
+        "liquid": "url('../src/assets/images/login-screen.jpg')",
+        "liquid-2": "url(../src/assets/images/liquid-02.jpg)"
       },
     },
   },
