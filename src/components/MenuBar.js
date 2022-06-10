@@ -1,0 +1,36 @@
+import purpleLogo from "../assets/images/azk-logo.svg";
+import homeIcon from "../assets/images/icons/home.svg";
+import homeIconGray from "../assets/images/icons/home-gray.svg";
+import clientsIcon from "../assets/images/icons/clients.svg";
+import clientsIconGray from "../assets/images/icons/clients-gray.svg";
+import reportsIcon from "../assets/images/icons/reports.svg";
+import reportsIconGray from "../assets/images/icons/reports-gray.svg";
+import logoutIcon from "../assets/images/icons/log-out.svg";
+
+const MenuBar = (props) => {
+  return (
+    <div className="p-3 h-[800px]">
+      <nav className=" bg-white rounded-2xl shadow-md h-full flex flex-col justify-between items-center">
+        <button>
+          <img className="w-20 p-4" src={purpleLogo} alt="" />
+        </button>
+        <div className="flex flex-col">
+          <button>
+            <img className="w-18 p-4" src={homeIcon} alt="" />
+          </button>
+          <button>
+            <img className="w-18 p-4" src={clientsIcon} alt="" />
+          </button>
+          <button>
+            <img className="w-18 p-4" src={reportsIcon} alt="" />
+          </button>
+        </div>
+        <button>
+          <img className="w-18 p-4" src={logoutIcon} alt="" />
+        </button>
+      </nav>
+    </div>
+  );
+};
+
+export default MenuBar;
