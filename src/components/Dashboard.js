@@ -1,6 +1,7 @@
-import CardDark from "./Card.js";
+import CardDark from "./CardDark.js";
 import Header from "./Header";
 import MenuBar from "./MenuBar";
+import SearchBar from "./SearchBar.js";
 
 const Dashboard = () => {
   return (
@@ -28,6 +29,7 @@ const Dashboard = () => {
               </div>
             </div>
           </CardDark>
+          <SearchBar />
         </section>
       </main>
     </div>
