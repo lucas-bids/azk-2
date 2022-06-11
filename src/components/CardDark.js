@@ -6,8 +6,10 @@ const CardDark = (props) => {
       }
        ${props.backgroundType == "purple" ? "bg-purple-500" : ""}
       `}
-    >
+    ><div className="">
+
       {props.children}
+    </div>
     </div>
   );
 };
