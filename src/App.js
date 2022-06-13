@@ -5,7 +5,7 @@ import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
-    <div className=" bg-gray-50 h-screen flex">
+    <div className=" bg-gray-50 min-h-screen flex">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />

@@ -3,6 +3,10 @@ import Header from "./Header";
 import MenuBar from "./MenuBar";
 import SearchBar from "./SearchBar.js";
 
+import SubmitIcon from "../assets/images/icons/submit.svg";
+import CardWhite from "./CardWhite.js";
+import List from "./List.js";
+
 const Dashboard = () => {
   return (
     <div className="flex w-screen">
@@ -55,14 +59,35 @@ const Dashboard = () => {
         </section>
 
         <section>
-          <div className="bg-white rounded-2xl shadow p-3 mt-4">
-            <form action="" className="h-[50px]">
-              <input type="date" className="h-full rounded-l-2xl border border-gray-300 px-4" />
-              <input type="text" className="h-full border-y border-gray-300 px-4" placeholder="Lucas"/>
-              <input type="text" className="h-full border border-gray-300 px-4" />
-              <input type="time" className="h-full rounded-r-2xl border border-gray-300 px-4" />
+          <CardWhite>
+            <form action="" className="h-[50px] flex">
+              <input
+                type="date"
+                className="h-[50px] focus:outline-none w-1/5 rounded-l-2xl border border-gray-300 px-4"
+              />
+              <input
+                type="text"
+                className="h-[50px] focus:outline-none w-1/5 border-y border-gray-300 px-4"
+                placeholder="Client name"
+              />
+              <input
+                type="text"
+                className="h-[50px] focus:outline-none grow border-y border-l border-gray-300 px-4"
+                placeholder="Task"
+              />
+              <div className="h-[50px] flex w-1/10 rounded-r-2xl border border-gray-300 pl-4">
+                <input
+                  type="time"
+                  className="focus:outline-none h-full"
+                />
+                <button type="submit" className="h-full p-2">
+                  <img src={SubmitIcon} className="h-full" alt="" />
+                </button>
+              </div>
             </form>
-          </div>
+
+            <List />
+          </CardWhite>
         </section>
       </main>
     </div>
