@@ -6,8 +6,45 @@ import SearchBar from "./SearchBar.js";
 import SubmitIcon from "../assets/images/icons/submit.svg";
 import CardWhite from "./CardWhite.js";
 import List from "./List.js";
+import { useRef } from "react";
 
 const Dashboard = () => {
+  const enteredDateRef = useRef();
+  const enteredClientRef = useRef();
+  const enteredTaskRef = useRef();
+  const enteredTimeRef = useRef();
+
+  const submitTaskHandler = (event) => {
+    event.preventDefault();
+
+    const enteredDate = enteredDateRef.current.value;
+    const enteredClient = enteredClientRef.current.value;
+    const enteredTask = enteredTaskRef.current.value;
+    const enteredTime = enteredTimeRef.current.value;
+
+    const newTaskData = {
+      Date: enteredDate,
+      Client: enteredClient,
+      Task: enteredTask,
+      Time: enteredTime,
+    };
+
+    const postTask = async (newTask) => {
+      const response = await fetch(
+        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
+        {
+          method: "POST",
+          body: JSON.stringify(newTask),
+          headers: { "Content-Type": "application.json" },
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    };
+
+    postTask(newTaskData);
+  };
+
   return (
     <div className="flex w-screen">
       <MenuBar />
@@ -60,23 +97,31 @@ const Dashboard = () => {
 
         <section>
           <CardWhite>
-            <form action="" className="h-[50px] flex">
+            <form
+              action=""
+              onSubmit={submitTaskHandler}
+              className="h-[50px] flex"
+            >
               <input
+                ref={enteredDateRef}
                 type="date"
                 className="h-[50px] focus:outline-none w-1/5 rounded-l-2xl border border-gray-300 px-4"
               />
               <input
+                ref={enteredClientRef}
                 type="text"
                 className="h-[50px] focus:outline-none w-1/5 border-y border-gray-300 px-4"
                 placeholder="Client name"
               />
               <input
+                ref={enteredTaskRef}
                 type="text"
                 className="h-[50px] focus:outline-none grow border-y border-l border-gray-300 px-4"
                 placeholder="Task"
               />
               <div className="h-[50px] flex w-1/10 rounded-r-2xl border border-gray-300 pl-4">
                 <input
+                  ref={enteredTimeRef}
                   type="time"
                   className="focus:outline-none h-full"
                 />
