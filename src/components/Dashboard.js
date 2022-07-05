@@ -7,8 +7,38 @@ import SubmitIcon from "../assets/images/icons/submit.svg";
 import CardWhite from "./CardWhite.js";
 import List from "./List.js";
 import { useRef } from "react";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
+  const [tasks, setTasks] = useState([]);
+
+  // Loads tasks
+  useEffect(() => {
+    const retrieveTasks = async () => {
+      const response = await fetch(
+        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
+      );
+      const responseData = await response.json();
+
+      const loadedTasks = [];
+
+      for (const key in responseData) {
+        loadedTasks.push({
+          id: key,
+          date: responseData[key].Date,
+          client: responseData[key].Client,
+          task: responseData[key].Task,
+          time: responseData[key].Time,
+        });
+      }
+
+      setTasks(loadedTasks);
+    };
+
+    retrieveTasks();
+  }, []);
+
+  // Takes input value from task form and sends it to Firebase
   const enteredDateRef = useRef();
   const enteredClientRef = useRef();
   const enteredTaskRef = useRef();
@@ -39,11 +69,14 @@ const Dashboard = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
+      return data;
     };
-
+    
     postTask(newTaskData);
+    // setTasks(tasks => [...tasks, postTask.data]);
+
   };
+
 
   return (
     <div className="flex w-screen">
@@ -131,7 +164,7 @@ const Dashboard = () => {
               </div>
             </form>
 
-            <List />
+            <List tasks={tasks} />
           </CardWhite>
         </section>
       </main>

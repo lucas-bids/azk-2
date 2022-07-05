@@ -1,62 +1,15 @@
+import TaskItem from "./TaskItem";
+
 const List = (props) => {
+  const tasks = props.tasks
+
+  const tasksList = tasks.map((task) => (
+    <TaskItem key={task.id} id={task.id} date={task.date} client={task.client} task={task.task} time={task.time} />
+  ));
+
   return (
     <ul className="pt-3">
-      <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500">
-        <div className="w-1/5">
-          <p>13/12/94</p>
-        </div>
-        <div className="w-1/5">
-          <p>Amicia</p>
-        </div>
-        <div className="grow">
-          <p>Limpar a esolada das pirias</p>
-        </div>
-        <div className="w-1/10">
-          <p>01:30</p>
-        </div>
-      </li>
-      <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500">
-        <div className="w-1/5">
-          <p>13/12/94</p>
-        </div>
-        <div className="w-1/5">
-          <p>Amicia</p>
-        </div>
-        <div className="grow">
-          <p>Limpar a esolada das pirias</p>
-        </div>
-        <div className="w-1/10">
-          <p>01:30</p>
-        </div>
-      </li>
-      <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500">
-        <div className="w-1/5">
-          <p>13/12/94</p>
-        </div>
-        <div className="w-1/5">
-          <p>Amicia</p>
-        </div>
-        <div className="grow">
-          <p>Limpar a esolada das pirias</p>
-        </div>
-        <div className="w-1/10">
-          <p>01:30</p>
-        </div>
-      </li>
-      <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500">
-        <div className="w-1/5">
-          <p>13/12/94</p>
-        </div>
-        <div className="w-1/5">
-          <p>Amicia</p>
-        </div>
-        <div className="grow">
-          <p>Limpar a esolada das pirias</p>
-        </div>
-        <div className="w-1/10">
-          <p>01:30</p>
-        </div>
-      </li>
+      {tasksList}
     </ul>
   );
 };
