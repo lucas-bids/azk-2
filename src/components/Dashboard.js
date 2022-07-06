@@ -69,14 +69,20 @@ const Dashboard = () => {
         }
       );
       const data = await response.json();
-      return data;
+
+      const taskData = {
+        id: data,
+        date: enteredDate,
+        client: enteredClient,
+        task: enteredTask,
+        time: enteredTime,
+      };
+
+      setTasks((tasks) => [...tasks, taskData]);
     };
-    
+
     postTask(newTaskData);
-    // setTasks(tasks => [...tasks, postTask.data]);
-
   };
-
 
   return (
     <div className="flex w-screen">
