@@ -12,29 +12,29 @@ import { useState, useEffect } from "react";
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
 
+  const retrieveTasks = async () => {
+    const response = await fetch(
+      "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
+    );
+    const responseData = await response.json();
+
+    const loadedTasks = [];
+
+    for (const key in responseData) {
+      loadedTasks.push({
+        id: key,
+        date: responseData[key].Date,
+        client: responseData[key].Client,
+        task: responseData[key].Task,
+        time: responseData[key].Time,
+      });
+    }
+
+    setTasks(loadedTasks);
+  };
+
   // Loads tasks
   useEffect(() => {
-    const retrieveTasks = async () => {
-      const response = await fetch(
-        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
-      );
-      const responseData = await response.json();
-
-      const loadedTasks = [];
-
-      for (const key in responseData) {
-        loadedTasks.push({
-          id: key,
-          date: responseData[key].Date,
-          client: responseData[key].Client,
-          task: responseData[key].Task,
-          time: responseData[key].Time,
-        });
-      }
-
-      setTasks(loadedTasks);
-    };
-
     retrieveTasks();
   }, []);
 
@@ -170,7 +170,7 @@ const Dashboard = () => {
               </div>
             </form>
 
-            <List tasks={tasks} />
+            <List tasks={tasks} refresh={retrieveTasks}  />
           </CardWhite>
         </section>
       </main>
