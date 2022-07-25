@@ -71,7 +71,7 @@ const Dashboard = () => {
       const data = await response.json();
 
       const taskData = {
-        id: data,
+        id: data.name,
         date: enteredDate,
         client: enteredClient,
         task: enteredTask,
