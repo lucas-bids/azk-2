@@ -1,11 +1,8 @@
-import purpleLogo from "../assets/images/azk-logo.svg";
-import homeIcon from "../assets/images/icons/home.svg";
-import homeIconGray from "../assets/images/icons/home-gray.svg";
-import clientsIcon from "../assets/images/icons/clients.svg";
-import clientsIconGray from "../assets/images/icons/clients-gray.svg";
-import reportsIcon from "../assets/images/icons/reports.svg";
-import reportsIconGray from "../assets/images/icons/reports-gray.svg";
-import logoutIcon from "../assets/images/icons/log-out.svg";
+import purpleLogo from "../../assets/images/azk-logo.svg";
+import homeIcon from "../../assets/images/icons/home.svg";
+import clientsIcon from "../../assets/images/icons/clients.svg";
+import reportsIcon from "../../assets/images/icons/reports.svg";
+import logoutIcon from "../../assets/images/icons/log-out.svg";
 
 const MenuBar = (props) => {
   return (

@@ -1,4 +1,4 @@
-import whiteLogo from "../assets/images/azk-logo-branco.svg";
+import whiteLogo from "../../assets/images/azk-logo-branco.svg";
 import LoginButton from "./LoginButton";
 
 const Login = () => {

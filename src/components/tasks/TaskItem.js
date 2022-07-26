@@ -1,4 +1,4 @@
-import trashCan from '../assets/images/trash-2.svg'
+import trashCan from '../../assets/images/trash-2.svg'
 
 const TaskItem = (props) => {
   const deleteHandler = async () => {

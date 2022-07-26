@@ -1,11 +1,12 @@
-import CardDark from "./CardDark.js";
-import SearchBar from "./SearchBar.js";
+import CardDark from "../UI/CardDark.js";
+import SearchBar from "../UI/SearchBar.js";
 
-import SubmitIcon from "../assets/images/icons/submit.svg";
-import CardWhite from "./CardWhite.js";
-import List from "./List.js";
+import SubmitIcon from "../../assets/images/icons/submit.svg";
+import CardWhite from "../UI/CardWhite.js";
+import List from "./TasksList.js";
 import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
+import TasksHeader from "../header/TasksHeader.js";
 
 const AllTasks = (props) => {
 
@@ -85,6 +86,8 @@ const AllTasks = (props) => {
 
   return (
     <Fragment>
+      <TasksHeader/>
+
       <section className="w-full mt-4">
         <CardDark backgroundType="liquid">
           <h2>This month alone</h2>

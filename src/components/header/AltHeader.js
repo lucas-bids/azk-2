@@ -1,5 +1,5 @@
 
-import DarkMode from "./DarkMode";
+import DarkMode from "../login/DarkMode";
 
 const AltHeader = (props) => {
   return (
