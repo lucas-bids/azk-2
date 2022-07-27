@@ -3,9 +3,9 @@ import CardDark from "../UI/CardDark.js";
 import SearchBar from "../UI/SearchBar.js";
 import SubmitIcon from "../../assets/images/icons/submit.svg";
 import CardWhite from "../UI/CardWhite.js";
-import List from "../tasks/TasksList.js";
 import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
+import ClientList from "./ClientsList";
 
 const AllClients = () => {
   const [clients, setClients] = useState([]);
@@ -16,16 +16,12 @@ const AllClients = () => {
     );
     const responseData = await response.json();
 
+    console.log(responseData)
+
     const loadedClients = [];
 
     for (const key in responseData) {
       loadedClients.push({
-        id: key,
-        client: responseData[key].Client,
-        client: responseData[key].Client,
-        task: responseData[key].Task,
-        time: responseData[key].Time,
-
         client: responseData[key].Client,
         pricehour: responseData[key].PriceHour,
         currency: responseData[key].Currency,
@@ -159,7 +155,7 @@ const AllClients = () => {
               </button>
             </div>
           </form>
-          <List clients={clients} refresh={retrieveClients} />
+          <ClientList clients={clients} refresh={retrieveClients} />
         </CardWhite>
       </section>
     </Fragment>
