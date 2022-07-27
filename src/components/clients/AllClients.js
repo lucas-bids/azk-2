@@ -16,8 +16,6 @@ const AllClients = () => {
     );
     const responseData = await response.json();
 
-    console.log(responseData)
-
     const loadedClients = [];
 
     for (const key in responseData) {
@@ -131,24 +129,26 @@ const AllClients = () => {
               ref={clientRef}
               type="client"
               className="h-[50px] focus:outline-none grow rounded-l-2xl border border-gray-300 px-4"
+              placeholder="Client Name"
             />
             <input
               ref={priceHourRef}
               type="pricehour"
-              className="h-[50px] focus:outline-none w-1/5 border-y border-gray-300 px-4"
-              placeholder="Client name"
+              className="h-[50px] focus:outline-none w-[120px] border-y border-gray-300 px-4"
+              placeholder="Price/hour"
             />
             <input
               ref={currencyRef}
               type="currency"
-              className="h-[50px] focus:outline-none grow border-y px-4"
-              placeholder="Task"
+              className="h-[50px] focus:outline-none border-y px-4 w-[70px] border-y border-gray-300"
+              placeholder="EUR"
             />
             <div className="h-[50px] flex w-1/10 rounded-r-2xl border border-gray-300 pl-4">
               <input
                 ref={hoursMonthRef}
                 type="hoursmonth"
                 className="focus:outline-none h-full"
+                placeholder="Hours/month"
               />
               <button type="submit" className="h-full p-2">
                 <img src={SubmitIcon} className="h-full" alt="" />
