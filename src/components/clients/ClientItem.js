@@ -11,16 +11,16 @@ const ClientItem = (props) => {
 
   return (
     <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500 group">
-      <div className="w-1/5">
+      <div className="grow">
         <p>{props.clientName}</p>
       </div>
-      <div className="w-1/5">
+      <div className="w-[120px] text-right pr-6">
         <p>{props.pricehour}</p>
       </div>
-      <div className="grow">
+      <div className="w-[50px] pr-2">
         <p>{props.currency}</p>
       </div>
-      <div className="w-1/10">
+      <div className="w-[180px] text-right">
         <p>{props.hoursmonth}</p>
       </div>
       <div className="hidden group-hover:flex" onClick={deleteHandler} >

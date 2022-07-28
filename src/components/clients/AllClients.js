@@ -24,7 +24,7 @@ const AllClients = () => {
         client: responseData[key].Client,
         pricehour: responseData[key].PriceHour,
         currency: responseData[key].Currency,
-        hoursmonth: responseData[key].HoursMonth
+        hoursmonth: responseData[key].HoursMonth,
       });
     }
 
@@ -73,7 +73,7 @@ const AllClients = () => {
         client: enteredClient,
         pricehour: enteredPriceHour,
         currency: enteredCurrency,
-        hoursmonth: enteredHoursMonth
+        hoursmonth: enteredHoursMonth,
       };
 
       setClients((clients) => [...clients, clientData]);
@@ -138,20 +138,23 @@ const AllClients = () => {
               className="h-[50px] focus:outline-none w-[120px] border-y border-gray-300 px-4"
               placeholder="Price/hour"
             />
-            <input
+            <select 
               ref={currencyRef}
               type="currency"
-              className="h-[50px] focus:outline-none border-y px-4 w-[70px] border-y border-gray-300"
-              placeholder="EUR"
-            />
-            <div className="h-[50px] flex w-1/10 rounded-r-2xl border border-gray-300 pl-4">
+              className="h-[50px] focus:outline-none border-y w-[70px] border-y border-gray-300 text-gray-400"
+            >
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+              <option value="BRL">BRL</option>
+            </select>
+            <div className="h-[50px] flex w-[180px] rounded-r-2xl border border-gray-300 pl-4">
               <input
                 ref={hoursMonthRef}
                 type="hoursmonth"
-                className="focus:outline-none h-full"
+                className="focus:outline-none h-full w-[100px]"
                 placeholder="Hours/month"
               />
-              <button type="submit" className="h-full p-2">
+              <button type="submit" className="h-full p-2 w-[80px] flex justify-end">
                 <img src={SubmitIcon} className="h-full" alt="" />
               </button>
             </div>
