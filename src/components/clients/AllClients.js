@@ -20,6 +20,7 @@ const AllClients = () => {
 
     for (const key in responseData) {
       loadedClients.push({
+        id: key,
         client: responseData[key].Client,
         pricehour: responseData[key].PriceHour,
         currency: responseData[key].Currency,
