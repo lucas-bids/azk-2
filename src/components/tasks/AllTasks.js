@@ -21,7 +21,7 @@ const AllTasks = (props) => {
     const loadedTasks = [];
 
     for (const key in responseData) {
-      loadedTasks.push({
+      loadedTasks.unshift({
         id: key,
         date: responseData[key].Date,
         client: responseData[key].Client,
@@ -78,7 +78,7 @@ const AllTasks = (props) => {
         time: enteredTime,
       };
 
-      setTasks((tasks) => [...tasks, taskData]);
+      setTasks((tasks) => [taskData, ...tasks]);
     };
 
     postTask(newTaskData);

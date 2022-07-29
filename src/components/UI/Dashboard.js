@@ -1,15 +1,13 @@
 import MenuBar from "./MenuBar";
 
-import { Outlet } from "react-router-dom";
-
-const Dashboard = () => {
+const Dashboard = (props) => {
 
   return (
     <div className="flex w-screen">
       <MenuBar />
       <main className=" w-2/3">
 
-        <Outlet />
+        {props.children}
       </main>
     </div>
   );

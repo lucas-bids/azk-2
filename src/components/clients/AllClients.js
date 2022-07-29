@@ -19,7 +19,7 @@ const AllClients = () => {
     const loadedClients = [];
 
     for (const key in responseData) {
-      loadedClients.push({
+      loadedClients.unshift({
         id: key,
         client: responseData[key].Client,
         pricehour: responseData[key].PriceHour,
@@ -76,7 +76,7 @@ const AllClients = () => {
         hoursmonth: enteredHoursMonth,
       };
 
-      setClients((clients) => [...clients, clientData]);
+      setClients((clients) => [clientData, ...clients]);
     };
 
     postClient(newClientData);
