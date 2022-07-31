@@ -4,7 +4,13 @@ import clientsIcon from "../../assets/images/icons/clients.svg";
 import reportsIcon from "../../assets/images/icons/reports.svg";
 import logoutIcon from "../../assets/images/icons/log-out.svg";
 
-const MenuBar = (props) => {
+import homeIconGray from "../../assets/images/icons/home-gray.svg";
+import clientsIconGray from "../../assets/images/icons/clients-gray.svg";
+import reportsIconGray from "../../assets/images/icons/reports-gray.svg";
+
+import { NavLink } from "react-router-dom";
+
+const MenuBar = () => {
   return (
     <div className="w-1/12 flex justify-center">
       <div className="p-3 h-[800px] w-fit">
@@ -13,8 +19,8 @@ const MenuBar = (props) => {
             <img className="w-20 p-4" src={purpleLogo} alt="" />
           </button>
           <div className="flex flex-col">
-            <button>
               <img className="w-18 p-4" src={homeIcon} alt="" />
+            <button>
             </button>
             <button>
               <img className="w-18 p-4" src={clientsIcon} alt="" />
