@@ -138,7 +138,7 @@ const AllClients = () => {
               className="h-[50px] focus:outline-none w-[120px] border-y border-gray-300 px-4"
               placeholder="Price/hour"
             />
-            <select 
+            <select
               ref={currencyRef}
               type="currency"
               className="h-[50px] focus:outline-none border-y w-[70px] border-y border-gray-300 text-gray-400"
@@ -154,7 +154,10 @@ const AllClients = () => {
                 className="focus:outline-none h-full w-[100px]"
                 placeholder="Hours/month"
               />
-              <button type="submit" className="h-full p-2 w-[80px] flex justify-end">
+              <button
+                type="submit"
+                className="h-full p-2 w-[80px] flex justify-end"
+              >
                 <img src={SubmitIcon} className="h-full" alt="" />
               </button>
             </div>
