@@ -16,6 +16,8 @@ const AllClients = () => {
     );
     const responseData = await response.json();
 
+    console.log(responseData)
+
     const loadedClients = [];
 
     for (const key in responseData) {

@@ -7,31 +7,31 @@ import List from "./TasksList.js";
 import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
 import TasksHeader from "../header/TasksHeader.js";
+import useHttp from "../../hooks/use-http.js";
 
 const AllTasks = (props) => {
-
   const [tasks, setTasks] = useState([]);
 
-  const retrieveTasks = async () => {
-    const response = await fetch(
-      "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
-    );
-    const responseData = await response.json();
-
+  const renderTasks = (taskObj) => {
     const loadedTasks = [];
 
-    for (const key in responseData) {
+    for (const key in taskObj) {
       loadedTasks.unshift({
         id: key,
-        date: responseData[key].Date,
-        client: responseData[key].Client,
-        task: responseData[key].Task,
-        time: responseData[key].Time,
+        date: taskObj[key].Date,
+        client: taskObj[key].Client,
+        task: taskObj[key].Task,
+        time: taskObj[key].Time,
       });
     }
-
     setTasks(loadedTasks);
   };
+
+  const {sendRequest: retrieveTasks} = useHttp(
+    {
+      url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
+    }, renderTasks
+  );
 
   // Loads tasks
   useEffect(() => {
@@ -86,7 +86,7 @@ const AllTasks = (props) => {
 
   return (
     <Fragment>
-      <TasksHeader/>
+      <TasksHeader />
 
       <section className="w-full mt-4">
         <CardDark backgroundType="liquid">
