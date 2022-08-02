@@ -1,7 +1,9 @@
 const useHttp = (requestConfig, applyData) => {
-  const sendRequest = async () => {
+    
+    const sendRequest = async () => {
+
     const response = await fetch(requestConfig.url, {
-      method: requestConfig.method ? requestConfig.method : 'GET',
+      method: requestConfig.method ? requestConfig.method : "GET",
       headers: requestConfig.headers ? requestConfig.headers : {},
       body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
     });
@@ -11,7 +13,7 @@ const useHttp = (requestConfig, applyData) => {
     applyData(responseData);
   };
 
-  return {sendRequest};
+  return { sendRequest };
 };
 
 export default useHttp;

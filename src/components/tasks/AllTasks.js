@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import TasksHeader from "../header/TasksHeader.js";
 import useHttp from "../../hooks/use-http.js";
 
-const AllTasks = (props) => {
+const AllTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   const renderTasks = (taskObj) => {
@@ -27,10 +27,11 @@ const AllTasks = (props) => {
     setTasks(loadedTasks);
   };
 
-  const {sendRequest: retrieveTasks} = useHttp(
+  const { sendRequest: retrieveTasks } = useHttp(
     {
       url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-    }, renderTasks
+    },
+    renderTasks
   );
 
   // Loads tasks
@@ -39,12 +40,27 @@ const AllTasks = (props) => {
   }, []);
 
   // Takes input value from task form and sends it to Firebase
+
+  const renderNewTask = (data) => {
+    const taskData = {
+      id: data.name,
+      date: data.enteredDate,
+      client: data.enteredClient,
+      task: data.enteredTask,
+      time: data.enteredTime,
+    };
+
+    setTasks((tasks) => [taskData, ...tasks]);
+  };
+
   const enteredDateRef = useRef();
   const enteredClientRef = useRef();
   const enteredTaskRef = useRef();
   const enteredTimeRef = useRef();
 
-  const submitTaskHandler = (event) => {
+  const { sendRequest: postTask } = useHttp();
+
+  const submitTaskHandler = async (event) => {
     event.preventDefault();
 
     const enteredDate = enteredDateRef.current.value;
@@ -59,29 +75,15 @@ const AllTasks = (props) => {
       Time: enteredTime,
     };
 
-    const postTask = async (newTask) => {
-      const response = await fetch(
-        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-        {
-          method: "POST",
-          body: JSON.stringify(newTask),
-          headers: { "Content-Type": "application.json" },
-        }
-      );
-      const data = await response.json();
-
-      const taskData = {
-        id: data.name,
-        date: enteredDate,
-        client: enteredClient,
-        task: enteredTask,
-        time: enteredTime,
-      };
-
-      setTasks((tasks) => [taskData, ...tasks]);
-    };
-
-    postTask(newTaskData);
+    postTask(
+      {
+        url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
+        method: "POST",
+        body: JSON.stringify(newTaskData),
+        headers: { "Content-Type": "application.json" },
+      },
+      renderNewTask
+    );
   };
 
   return (
