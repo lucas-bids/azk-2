@@ -41,6 +41,11 @@ const AllTasks = () => {
 
   // Takes input value from task form and sends it to Firebase
 
+  const enteredDateRef = useRef();
+  const enteredClientRef = useRef();
+  const enteredTaskRef = useRef();
+  const enteredTimeRef = useRef();
+
   const renderNewTask = (data) => {
     const taskData = {
       id: data.name,
@@ -53,34 +58,24 @@ const AllTasks = () => {
     setTasks((tasks) => [taskData, ...tasks]);
   };
 
-  const enteredDateRef = useRef();
-  const enteredClientRef = useRef();
-  const enteredTaskRef = useRef();
-  const enteredTimeRef = useRef();
-
   const { sendRequest: postTask } = useHttp();
 
   const submitTaskHandler = async (event) => {
     event.preventDefault();
 
-    const enteredDate = enteredDateRef.current.value;
-    const enteredClient = enteredClientRef.current.value;
-    const enteredTask = enteredTaskRef.current.value;
-    const enteredTime = enteredTimeRef.current.value;
-
     const newTaskData = {
-      Date: enteredDate,
-      Client: enteredClient,
-      Task: enteredTask,
-      Time: enteredTime,
+      Date: enteredDateRef.current.value,
+      Client: enteredClientRef.current.value,
+      Task: enteredTaskRef.current.value,
+      Time: enteredTimeRef.current.value,
     };
 
     postTask(
       {
         url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
         method: "POST",
-        body: JSON.stringify(newTaskData),
         headers: { "Content-Type": "application.json" },
+        body: JSON.stringify(newTaskData),
       },
       renderNewTask
     );
