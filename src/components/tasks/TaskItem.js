@@ -1,12 +1,13 @@
 import trashCan from '../../assets/images/trash-2.svg'
 
 const TaskItem = (props) => {
+  const refresh = props.refresh;
   const deleteHandler = async () => {
   await fetch(`https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks/${props.id}.json`, {
       method: 'DELETE'
     });
     // Fires the retrieveTasks function on the Dashboard
-    props.refresh();
+    refresh();
   }
 
   return (

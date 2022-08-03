@@ -27,7 +27,9 @@ const AllTasks = () => {
     setTasks(loadedTasks);
   };
 
-  const { sendRequest: retrieveTasks } = useHttp(
+  const { sendRequest: retrieveTasks } = useHttp();
+
+  const refresh = retrieveTasks(
     {
       url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
     },
@@ -35,9 +37,14 @@ const AllTasks = () => {
   );
 
   // Loads tasks
-  useEffect(() => {
-    retrieveTasks();
-  }, []);
+  // useEffect(() => {
+  //   retrieveTasks(
+  //     {
+  //       url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
+  //     },
+  //     renderTasks
+  //   );
+  // }, []);
 
   // Takes input value from task form and sends it to Firebase
 
@@ -49,10 +56,10 @@ const AllTasks = () => {
   const renderNewTask = (data) => {
     const taskData = {
       id: data.name,
-      date: data.enteredDate,
-      client: data.enteredClient,
-      task: data.enteredTask,
-      time: data.enteredTime,
+      date: data.Date,
+      client: data.Client,
+      task: data.Task,
+      time: data.Time,
     };
 
     setTasks((tasks) => [taskData, ...tasks]);
@@ -63,19 +70,24 @@ const AllTasks = () => {
   const submitTaskHandler = async (event) => {
     event.preventDefault();
 
+    const enteredDate = enteredDateRef.current.value;
+    const enteredClient = enteredClientRef.current.value;
+    const enteredTask = enteredTaskRef.current.value;
+    const enteredTime = enteredTimeRef.current.value;
+
     const newTaskData = {
-      Date: enteredDateRef.current.value,
-      Client: enteredClientRef.current.value,
-      Task: enteredTaskRef.current.value,
-      Time: enteredTimeRef.current.value,
+      Date: enteredDate,
+      Client: enteredClient,
+      Task: enteredTask,
+      Time: enteredTime,
     };
 
     postTask(
       {
         url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
         method: "POST",
+        body: newTaskData,
         headers: { "Content-Type": "application.json" },
-        body: JSON.stringify(newTaskData),
       },
       renderNewTask
     );
@@ -162,7 +174,10 @@ const AllTasks = () => {
               </button>
             </div>
           </form>
-          <List tasks={tasks} refresh={retrieveTasks} />
+          <List
+            tasks={tasks}
+            refresh={refresh}
+          />
         </CardWhite>
       </section>
     </Fragment>
