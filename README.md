@@ -8,7 +8,7 @@ When you are a Freelancer working by the hour, you have to spend a lot of time i
 
 ### Approaching the problem
 
-Well, since the problem was mine and from other professionally close people, it was a little easier to make the reasearch and to discover new problems, as it usually is (also, since this is a small, non comercial project that will be used by few people). Here's a list of both things that have to be accomplished every month, regarding each client and task, and problems that were persistent:
+Well, since the problem was mine and from other professionally close people, it was a little easier to make the reasearch and to discover new problems, than it usually is (also, since this is a small, non comercial project that will be used by few people). Here's a list of both things that have to be accomplished every month, regarding each client and task, and problems that were persistent:
 
 #### Activities:
 • Register new and existing clients, each with its available hours, payment and currency;<br>
@@ -21,7 +21,12 @@ Well, since the problem was mine and from other professionally close people, it 
 • Information was lost;<br>
 
 #### User behaviour:
-• Used mostly (I actually never input tasks from my phone) on desktop PCs both by day and night times;<br>
+• Used mostly on desktop PCs both by day and night times (I actually never input tasks from my phone);<br>
 • Daily input of tasks;<br>
-• Monthly hour and payment analysis;<br>
+• Monthly hour and payment analysis (once per month);<br>
+
+### Designing the UX and UI
+After listing down the core features based on the activities and common problems, they were hierarchically organized, prioritizing the features that were most commonly used and were the most important. After building the UX chartflow, I was able to identify probable misuses and improvements iteratively. This is the final result:
+
+<img src="https://imgur.com/a/iW7reOZ" alt="" />
 
