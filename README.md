@@ -26,6 +26,8 @@ Well, since the problem was mine and from other professionally close people, it 
 • Monthly hour and payment analysis (once per month);<br>
 
 #### Branding (or a little bit of it)
+I didn't design the brand as a whole, it is basically the logo, the color palette, the typography and a few graphic elements, just enough to make the application work as a simple (sort of MVP) product.
+
 ##### THE WHY
 From a product development point of view, azk• is suposed to solve the following problems:
 <ul>
@@ -38,10 +40,21 @@ A freelancer should spend time doing things that deliver value and get paid for 
 ##### THE HOW
 Exploring the user behaviour and the problems they face, I could create a tailored experience, that sits on the bright, practical side of work: acomplishing things and getting paid for them. When we start planning things from our goals everything else just start making sense.
 
+##### THE WHAT
+azk• Don't miss a task. is a task management tool. Use it to keep track of how much time you spent working for each of your clients. The name comes from the German acronym to Arbeitszeitkarte, AZK, which translates to "daily job time report" or, more literally, "work time sheet".
+
+<img src="./azk-logos.png" style="" alt="azk's logo dark version" />
+<img src="./azk-typography.png" style="" alt="azk's typography table" />
+
 ### Designing the UX and UI
 After listing down the core features based on the activities and common problems, they were hierarchically organized, prioritizing the features that were most commonly used and were the most important. After building the UX chartflow, I was able to identify probable misuses and improvements iteratively. This is the final result:
 
-<img src="./azk-ux-flow.png" alt="" />
+<img src="./azk-ux-flow.png" alt="UX Flowchart from the application" />
+
+#### The UI
+After breaking down the UX flow into the core features, I was able to decide how to group the functionalities into pages and elements.
+
+<img src="./azk-ui.png" alt="Screenshot of the application's UI on Figma" />
 
 
 
