@@ -47,6 +47,7 @@ const AllTasks = () => {
   // }, []);
 
   // Takes input value from task form and sends it to Firebase
+  // New comment
 
   const enteredDateRef = useRef();
   const enteredClientRef = useRef();
