@@ -7,68 +7,68 @@ import List from "./TasksList.js";
 import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
 import TasksHeader from "../header/TasksHeader.js";
-import useHttp from "../../hooks/use-http.js";
+import ClientList from "../clients/ClientsList.js";
 
-const AllTasks = () => {
+const AllTasks = (props) => {
   const [tasks, setTasks] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [clientEl, setClientEl] = useState();
 
-  const renderTasks = (taskObj) => {
+  const retrieveTasks = async () => {
+    const response = await fetch(
+      "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
+    );
+    const responseData = await response.json();
+
     const loadedTasks = [];
 
-    for (const key in taskObj) {
+    for (const key in responseData) {
       loadedTasks.unshift({
         id: key,
-        date: taskObj[key].Date,
-        client: taskObj[key].Client,
-        task: taskObj[key].Task,
-        time: taskObj[key].Time,
+        date: responseData[key].Date,
+        client: responseData[key].Client,
+        task: responseData[key].Task,
+        time: responseData[key].Time,
       });
     }
+
     setTasks(loadedTasks);
+
+    const clientResponse = await fetch(
+      "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
+    );
+    const clientList = await clientResponse.json();
+    const loadedClients = [];
+
+    for (const key in ClientList) {
+      loadedClients.push({
+        id: key,
+        clientName: clientList[key].Client,
+      });
+    }
+
+    setClients(loadedClients);
+
+    const clientsDropdown = loadedClients.map((client) => {
+      <option value={client.Client}>{client.Client}</option>;
+    });
+
+    setClientEl(clientsDropdown);
+    console.log(clientEl);
   };
 
-  const { sendRequest: retrieveTasks } = useHttp();
-
-  const refresh = retrieveTasks(
-    {
-      url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-    },
-    renderTasks
-  );
-
   // Loads tasks
-  // useEffect(() => {
-  //   retrieveTasks(
-  //     {
-  //       url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-  //     },
-  //     renderTasks
-  //   );
-  // }, []);
+  useEffect(() => {
+    retrieveTasks();
+  }, []);
 
   // Takes input value from task form and sends it to Firebase
-  // New comment
-
   const enteredDateRef = useRef();
   const enteredClientRef = useRef();
   const enteredTaskRef = useRef();
   const enteredTimeRef = useRef();
 
-  const renderNewTask = (data) => {
-    const taskData = {
-      id: data.name,
-      date: data.Date,
-      client: data.Client,
-      task: data.Task,
-      time: data.Time,
-    };
-
-    setTasks((tasks) => [taskData, ...tasks]);
-  };
-
-  const { sendRequest: postTask } = useHttp();
-
-  const submitTaskHandler = async (event) => {
+  const submitTaskHandler = (event) => {
     event.preventDefault();
 
     const enteredDate = enteredDateRef.current.value;
@@ -83,16 +83,53 @@ const AllTasks = () => {
       Time: enteredTime,
     };
 
-    postTask(
-      {
-        url: "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-        method: "POST",
-        body: newTaskData,
-        headers: { "Content-Type": "application.json" },
-      },
-      renderNewTask
-    );
+    const postTask = async (newTask) => {
+      const response = await fetch(
+        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
+        {
+          method: "POST",
+          body: JSON.stringify(newTask),
+          headers: { "Content-Type": "application.json" },
+        }
+      );
+      const data = await response.json();
+
+      const taskData = {
+        id: data.name,
+        date: enteredDate,
+        client: enteredClient,
+        task: enteredTask,
+        time: enteredTime,
+      };
+
+      setTasks((tasks) => [taskData, ...tasks]);
+    };
+
+    postTask(newTaskData);
   };
+
+  // const selectClickHandler = async () => {
+  //   const response = await fetch(
+  //     "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
+  //   );
+  //   const clientList = await response.json();
+  //   console.log(clientList);
+  //   const loadedClients = []
+
+  //   for(const key in ClientList) {
+  //     loadedClients.push({
+  //       id: key,
+  //       clientName: clientList[key].Client
+  //     })
+  //   }
+
+  //   setClients(loadedClients);
+
+  //   const clientsDropdown = loadedClients.map((client) => {
+  //     <option value="{client.Client}">{client.Client}</option>
+  //   })
+
+  // };
 
   return (
     <Fragment>
@@ -158,6 +195,9 @@ const AllTasks = () => {
               className="h-[50px] focus:outline-none w-1/5 border-y border-gray-300 px-4"
               placeholder="Client name"
             />
+            <select name="" id="">
+              {clients}
+            </select>
             <input
               ref={enteredTaskRef}
               type="text"
@@ -175,10 +215,7 @@ const AllTasks = () => {
               </button>
             </div>
           </form>
-          <List
-            tasks={tasks}
-            refresh={refresh}
-          />
+          <List tasks={tasks} refresh={retrieveTasks} />
         </CardWhite>
       </section>
     </Fragment>
