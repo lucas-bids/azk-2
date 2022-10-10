@@ -52,25 +52,23 @@ const AllTasks = (props) => {
       });
     }
 
-    console.log(loadedClients);
     setClients(loadedClients);
-    console.log(clients);
-  
-    const clientsDropdown = clients.map((client) => (
-      <option key={client.id} value={client.clientName}>
-        {client.clientName}
-      </option>
-    ));
-
-    setClientEl(clientsDropdown);
-    console.log(clientEl);
   }
-
+  
   // Loads tasks
   useEffect(() => {
     retrieveTasks();
     retrieveClients();
   }, []);
+  
+  useEffect(() => {
+    const clientsDropdown = clients.map((client) => (
+      <option key={client.id} value={client.clientName}>
+        {client.clientName}
+      </option>
+    ));
+    setClientEl(clientsDropdown);
+  }, [clients])
 
   // Takes input value from task form and sends it to Firebase
   const enteredDateRef = useRef();
