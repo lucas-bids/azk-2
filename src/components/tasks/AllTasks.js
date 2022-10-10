@@ -7,7 +7,6 @@ import List from "./TasksList.js";
 import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
 import TasksHeader from "../header/TasksHeader.js";
-import ClientList from "../clients/ClientsList.js";
 
 const AllTasks = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -34,32 +33,43 @@ const AllTasks = (props) => {
 
     setTasks(loadedTasks);
 
+    
+  };
+
+  const retrieveClients = async () => {
     const clientResponse = await fetch(
       "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
     );
     const clientList = await clientResponse.json();
+    console.log(clientList);
+
     const loadedClients = [];
 
-    for (const key in ClientList) {
+    for (const key in clientList) {
       loadedClients.push({
         id: key,
         clientName: clientList[key].Client,
       });
     }
 
+    console.log(loadedClients);
     setClients(loadedClients);
-
-    const clientsDropdown = loadedClients.map((client) => {
-      <option value={client.Client}>{client.Client}</option>;
-    });
+    console.log(clients);
+  
+    const clientsDropdown = clients.map((client) => (
+      <option key={client.id} value={client.clientName}>
+        {client.clientName}
+      </option>
+    ));
 
     setClientEl(clientsDropdown);
     console.log(clientEl);
-  };
+  }
 
   // Loads tasks
   useEffect(() => {
     retrieveTasks();
+    retrieveClients();
   }, []);
 
   // Takes input value from task form and sends it to Firebase
@@ -196,7 +206,7 @@ const AllTasks = (props) => {
               placeholder="Client name"
             />
             <select name="" id="">
-              {clients}
+              {clientEl}
             </select>
             <input
               ref={enteredTaskRef}
