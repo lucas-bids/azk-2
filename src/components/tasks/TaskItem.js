@@ -1,32 +1,20 @@
-import trashCan from '../../assets/images/trash-2.svg'
+import trashCan from "../../assets/images/trash-2.svg";
+import { formatDateDisplay } from "../../utils/format";
 
 const TaskItem = (props) => {
-  const refresh = props.refresh;
-  const deleteHandler = async () => {
-  await fetch(`https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks/${props.id}.json`, {
-      method: 'DELETE'
-    });
-    // Fires the retrieveTasks function on the Dashboard
-    refresh();
-  }
-
   return (
-    <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500 group">
-      <div className="w-1/5">
-        <p>{props.date}</p>
-      </div>
-      <div className="w-1/5">
-        <p>{props.client}</p>
-      </div>
-      <div className="grow">
-        <p>{props.task}</p>
-      </div>
-      <div className="w-1/10">
-        <p>{props.time}</p>
-      </div>
-      <div className="hidden group-hover:flex" onClick={deleteHandler} >
-        <img src={trashCan} alt=""/>
-      </div>
+    <li className="group flex rounded-2xl px-4 py-3 text-xl text-gray-500 odd:bg-gray-50">
+      <div className="w-1/5">{formatDateDisplay(props.date)}</div>
+      <div className="w-1/5">{props.client}</div>
+      <div className="grow">{props.task}</div>
+      <div className="w-[120px] text-right">{props.time}</div>
+      <button
+        type="button"
+        onClick={() => props.onDelete(props.id)}
+        className="ml-4 hidden group-hover:flex"
+      >
+        <img src={trashCan} alt="" />
+      </button>
     </li>
   );
 };

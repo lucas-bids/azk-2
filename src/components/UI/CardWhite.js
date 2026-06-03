@@ -1,8 +1,8 @@
 const CardWhite = (props) => {
   return (
-      <div className="bg-white rounded-2xl shadow p-3 mt-4">
-        {props.children}
-      </div>
+    <div className="mt-4 rounded-[30px] bg-white p-4 shadow">
+      {props.children}
+    </div>
   );
 };
 

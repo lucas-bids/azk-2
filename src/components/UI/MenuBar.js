@@ -11,18 +11,17 @@ import reportsIconGray from "../../assets/images/icons/reports-gray.svg";
 import { NavLink } from "react-router-dom";
 
 const MenuBar = () => {
-
   return (
-    <div className="w-1/12 flex justify-center">
-      <div className="p-3 h-[800px] w-fit">
-        <nav className=" bg-white rounded-2xl shadow h-full flex flex-col justify-between items-center">
-          <NavLink to="/tasks">
+    <div className="hidden w-[130px] shrink-0 justify-center lg:flex">
+      <div className="w-full p-3">
+        <nav className="flex h-full min-h-[calc(100vh-24px)] flex-col items-center justify-between rounded-[30px] bg-white shadow">
+          <NavLink to="/dashboard">
             <button>
               <img className="w-20 p-4" src={purpleLogo} alt="" />
             </button>
           </NavLink>
           <div className="flex flex-col">
-            <NavLink to="/tasks">
+            <NavLink to="/dashboard">
               {({isActive}) => (
                 <img className="w-18 p-4" src={isActive ? homeIcon : homeIconGray} alt="" />
               )
@@ -41,9 +40,9 @@ const MenuBar = () => {
               }
               </NavLink>
           </div>
-          <button>
+          <NavLink to="/">
             <img className="w-18 p-4" src={logoutIcon} alt="" />
-          </button>
+          </NavLink>
         </nav>
       </div>
     </div>

@@ -9,7 +9,7 @@ const CardDark = (props) => {
 
   return (
     <div
-      className={`w-full rounded-2xl p-5 bg-cover text-white ${background}`}
+      className={`w-full rounded-[30px] bg-cover p-6 text-white ${background}`}
     >
       {props.children}
     </div>
