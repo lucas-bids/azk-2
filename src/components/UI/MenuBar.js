@@ -14,10 +14,10 @@ const MenuBar = () => {
   return (
     <div className="hidden w-[130px] shrink-0 justify-center lg:flex">
       <div className="w-full p-3">
-        <nav className="flex h-full min-h-[calc(100vh-24px)] flex-col items-center justify-between rounded-[30px] bg-white shadow">
+        <nav className="flex h-full min-h-[calc(100vh-24px)] flex-col items-center justify-between rounded-[30px] bg-white shadow px-6 py-8">
           <NavLink to="/dashboard">
             <button>
-              <img className="w-20 p-4" src={purpleLogo} alt="" />
+              <img className="w-20" src={purpleLogo} alt="" />
             </button>
           </NavLink>
           <div className="flex flex-col">
@@ -41,7 +41,7 @@ const MenuBar = () => {
               </NavLink>
           </div>
           <NavLink to="/">
-            <img className="w-18 p-4" src={logoutIcon} alt="" />
+            <img className="w-18 p-4 pb-0" src={logoutIcon} alt="" />
           </NavLink>
         </nav>
       </div>
