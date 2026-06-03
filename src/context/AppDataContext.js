@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { mockClients, mockReports, mockTasks } from "../data/mockData";
 import {
   buildReportTitle,
@@ -124,14 +124,30 @@ export const AppDataProvider = ({ children }) => {
     return savedReport.id;
   };
 
-  const getReportById = (reportId) => {
-    if (reportId === "draft") {
-      return getReportDetails(draftReport, clients, tasks);
-    }
+  const primaryCurrency = useMemo(
+    () => clients[0]?.currency || "EUR",
+    [clients]
+  );
 
-    const report = reports.find((item) => item.id === reportId);
-    return getReportDetails(report, clients, tasks);
-  };
+  const getReportById = useCallback(
+    (reportId) => {
+      if (reportId === "draft") {
+        return getReportDetails(draftReport, clients, tasks);
+      }
+
+      const report = reports.find((item) => item.id === reportId);
+      return getReportDetails(report, clients, tasks);
+    },
+    [clients, draftReport, reports, tasks]
+  );
+
+  const savedReports = useMemo(
+    () =>
+      reports
+        .map((report) => getReportDetails(report, clients, tasks))
+        .filter(Boolean),
+    [clients, reports, tasks]
+  );
 
   const timelineEntries = useMemo(() => {
     const grouped = tasks.reduce((acc, task) => {
@@ -156,15 +172,19 @@ export const AppDataProvider = ({ children }) => {
           return sum + (parseTimeToMinutes(task.time) / 60) * parseMoney(client?.pricehour);
         }, 0);
 
+        const entryCurrency =
+          getClientByName(clients, dayTasks[0]?.client)?.currency || primaryCurrency;
+
         return {
           date,
           displayDate: formatDateShort(date),
           clients: uniqueClients,
           worked: formatHoursDecimal(totalMinutes),
           earned: Math.round(amount),
+          currency: entryCurrency,
         };
       });
-  }, [clients, tasks]);
+  }, [clients, primaryCurrency, tasks]);
 
   const dashboardSummary = useMemo(() => {
     const totalMinutes = tasks.reduce(
@@ -179,9 +199,10 @@ export const AppDataProvider = ({ children }) => {
     return {
       hoursInput: formatHoursDecimal(totalMinutes),
       cashEarned: formatCurrencyAmount(cashEarned),
+      currency: primaryCurrency,
       tasksCreated: tasks.length,
     };
-  }, [clients, tasks]);
+  }, [clients, primaryCurrency, tasks]);
 
   const clientsSummary = useMemo(() => {
     const totalAssignedMinutes = clients.reduce(
@@ -203,8 +224,9 @@ export const AppDataProvider = ({ children }) => {
       totalHours: formatHoursDecimal(workedMinutes),
       hoursLeft: formatHoursDecimal(Math.max(totalAssignedMinutes - workedMinutes, 0)),
       plannedIncome: formatCurrencyAmount(plannedIncome),
+      currency: primaryCurrency,
     };
-  }, [clients, tasks]);
+  }, [clients, primaryCurrency, tasks]);
 
   const value = {
     clients,
@@ -219,6 +241,7 @@ export const AppDataProvider = ({ children }) => {
     discardDraftReport,
     saveDraftReport,
     getReportById,
+    savedReports,
     timelineEntries,
     dashboardSummary,
     clientsSummary,

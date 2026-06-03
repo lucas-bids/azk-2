@@ -1,17 +1,18 @@
-const CardDark = (props) => {
-  let background = ""
+import { surfaceCardClass } from "./uiClasses";
 
-  if (props.backgroundType === "liquid") {
-    background = "bg-liquid-2";
-  } else {
-    background = props.backgroundType;
-  }
+const backgroundVariants = {
+  liquid: "bg-liquid-2",
+  purple: "bg-[#9570e2]",
+};
+
+const CardDark = ({ variant = "liquid", children }) => {
+  const background = backgroundVariants[variant] || backgroundVariants.liquid;
 
   return (
     <div
-      className={`w-full rounded-[30px] bg-cover p-6 text-white ${background}`}
+      className={`${surfaceCardClass} w-full bg-cover p-6 text-white ${background}`}
     >
-      {props.children}
+      {children}
     </div>
   );
 };

@@ -1,17 +1,19 @@
 import trashCan from "../../assets/images/trash-2.svg";
 import { formatDateDisplay } from "../../utils/format";
+import { tableRowClass } from "../UI/uiClasses";
 
-const TaskItem = (props) => {
+const TaskItem = ({ id, date, client, task, time, onDelete }) => {
   return (
-    <li className="group flex rounded-2xl px-4 py-3 text-xl text-gray-500 odd:bg-gray-50">
-      <div className="shrink-0 basis-[270px] px-4">{formatDateDisplay(props.date)}</div>
-      <div className="shrink-0 basis-[360px] px-4">{props.client}</div>
-      <div className="min-w-0 grow px-4">{props.task}</div>
-      <div className="shrink-0 basis-[330px] px-4 text-right">{props.time}</div>
+    <li className={`group flex ${tableRowClass}`}>
+      <div className="shrink-0 basis-[270px] px-4">{formatDateDisplay(date)}</div>
+      <div className="shrink-0 basis-[360px] px-4">{client}</div>
+      <div className="min-w-0 grow px-4">{task}</div>
+      <div className="shrink-0 basis-[330px] px-4 text-right">{time}</div>
       <button
         type="button"
-        onClick={() => props.onDelete(props.id)}
+        onClick={() => onDelete(id)}
         className="ml-2 hidden shrink-0 group-hover:flex"
+        aria-label="Delete task"
       >
         <img src={trashCan} alt="" />
       </button>

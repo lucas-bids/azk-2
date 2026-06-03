@@ -1,6 +1,8 @@
+import { surfaceCardClass } from "./uiClasses";
+
 const CardWhite = (props) => {
   return (
-    <div className="mt-4 rounded-[30px] bg-white p-4 shadow">
+    <div className={surfaceCardClass}>
       {props.children}
     </div>
   );

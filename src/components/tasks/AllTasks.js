@@ -1,11 +1,16 @@
-import { Fragment, useMemo, useRef, useState } from "react";
-import CardDark from "../UI/CardDark.js";
-import SearchBar from "../UI/SearchBar.js";
-import SubmitIcon from "../../assets/images/icons/submit.svg";
-import CardWhite from "../UI/CardWhite.js";
-import List from "./TasksList.js";
-import TasksHeader from "../header/TasksHeader.js";
+import { useMemo, useRef, useState } from "react";
+import CardDark from "../UI/CardDark";
+import SearchBar from "../UI/SearchBar";
+import CardWhite from "../UI/CardWhite";
+import TasksList from "./TasksList";
+import PageHeader from "../header/PageHeader";
 import { useAppData } from "../../context/AppDataContext";
+import FormBar, { FormBarSegment } from "../UI/FormBar";
+import TextField from "../UI/TextField";
+import SelectField from "../UI/SelectField";
+import SectionHeader from "../UI/SectionHeader";
+import IconSubmitButton from "../UI/IconSubmitButton";
+import { mutedHeadingClass } from "../UI/uiClasses";
 
 const AllTasks = () => {
   const { tasks, clients, addTask, deleteTask, dashboardSummary } = useAppData();
@@ -59,11 +64,11 @@ const AllTasks = () => {
   };
 
   return (
-    <Fragment>
-      <TasksHeader />
+    <>
+      <PageHeader title="Hello, Lucas" size="large" />
 
       <section className="mt-4 w-full">
-        <CardDark backgroundType="liquid">
+        <CardDark variant="liquid">
           <h2 className="text-2xl font-medium">This month alone:</h2>
           <div className="mt-8 flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
             <div>
@@ -72,7 +77,9 @@ const AllTasks = () => {
             </div>
             <div className="hidden h-32 border border-white xl:block"></div>
             <div>
-              <p className="text-7xl font-medium">{dashboardSummary.cashEarned} €</p>
+              <p className="text-7xl font-medium">
+                {dashboardSummary.cashEarned} {dashboardSummary.currency}
+              </p>
               <p className="mt-4 text-2xl">Cash earned</p>
             </div>
             <div className="hidden h-32 border border-white xl:block"></div>
@@ -86,85 +93,91 @@ const AllTasks = () => {
 
       <section>
         <SearchBar value={searchValue} onChange={setSearchValue} />
-        <div className="mt-6 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-          <h2 className="text-3xl font-medium text-gray-700">Your tasks</h2>
-          <div className="flex flex-wrap items-center gap-3 text-2xl text-gray-400">
-            <h2 className="text-2xl font-medium text-gray-700">Filters:</h2>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(event) => setStartDate(event.target.value)}
-              className="bg-gray-50 underline focus:outline-none"
-            />
-            <span>-</span>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(event) => setEndDate(event.target.value)}
-              className="bg-gray-50 underline focus:outline-none"
-            />
-            <select
-              value={selectedClient}
-              onChange={(event) => setSelectedClient(event.target.value)}
-              className="bg-gray-50 underline focus:outline-none"
-            >
-              <option value="">Client</option>
-              {clients.map((client) => (
-                <option key={client.id} value={client.client}>
-                  {client.client}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+        <SectionHeader
+          title="Your tasks"
+          actions={
+            <div className="flex flex-wrap items-center gap-3 text-2xl text-gray-400">
+              <h2 className={mutedHeadingClass}>Filters:</h2>
+              <TextField
+                variant="filter"
+                type="date"
+                value={startDate}
+                onChange={(event) => setStartDate(event.target.value)}
+              />
+              <span>-</span>
+              <TextField
+                variant="filter"
+                type="date"
+                value={endDate}
+                onChange={(event) => setEndDate(event.target.value)}
+              />
+              <SelectField
+                variant="filter"
+                value={selectedClient}
+                onChange={(event) => setSelectedClient(event.target.value)}
+              >
+                <option value="">Client</option>
+                {clients.map((client) => (
+                  <option key={client.id} value={client.client}>
+                    {client.client}
+                  </option>
+                ))}
+              </SelectField>
+            </div>
+          }
+        />
       </section>
 
       <section>
         <CardWhite>
           <form onSubmit={submitTaskHandler}>
-            <div className="flex flex-col overflow-hidden rounded-[28px] border border-gray-300 bg-white xl:flex-row">
-              <input
-                ref={enteredDateRef}
-                type="date"
-                defaultValue="2022-12-13"
-                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[270px] xl:border-b-0 xl:border-r"
-              />
-              <input
-                ref={enteredClientRef}
-                type="text"
-                list="task-client-options"
-                defaultValue={clients[0]?.client || ""}
-                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[360px] xl:border-b-0 xl:border-r"
-                placeholder="Client"
-              />
+            <FormBar>
+              <FormBarSegment widthClass="xl:w-[270px]">
+                <TextField
+                  ref={enteredDateRef}
+                  variant="bar"
+                  type="date"
+                  defaultValue="2022-12-13"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[360px]">
+                <TextField
+                  ref={enteredClientRef}
+                  variant="bar"
+                  type="text"
+                  list="task-client-options"
+                  defaultValue={clients[0]?.client || ""}
+                  placeholder="Client"
+                />
+              </FormBarSegment>
               <datalist id="task-client-options">
                 {clients.map((client) => (
                   <option key={client.id} value={client.client} />
                 ))}
               </datalist>
-              <input
-                ref={enteredTaskRef}
-                type="text"
-                className="h-[84px] grow border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:border-b-0 xl:border-r"
-                placeholder="Task"
-              />
-              <div className="flex h-[84px] items-center xl:w-[330px]">
-                <input
+              <FormBarSegment className="grow">
+                <TextField
+                  ref={enteredTaskRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Task"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[330px]" bordered={false}>
+                <TextField
                   ref={enteredTimeRef}
+                  variant="bar"
                   type="time"
                   defaultValue="01:30"
-                  className="h-full grow px-7 text-[28px] font-light text-gray-500 focus:outline-none"
                 />
-                <button type="submit" className="px-6">
-                  <img src={SubmitIcon} className="h-11 w-11" alt="" />
-                </button>
-              </div>
-            </div>
+                <IconSubmitButton />
+              </FormBarSegment>
+            </FormBar>
           </form>
-          <List tasks={filteredTasks} onDelete={deleteTask} />
+          <TasksList tasks={filteredTasks} onDelete={deleteTask} />
         </CardWhite>
       </section>
-    </Fragment>
+    </>
   );
 };
 

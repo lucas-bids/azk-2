@@ -1,12 +1,13 @@
+import TextField from "./TextField";
+
 const SearchBar = ({ value = "", onChange }) => {
   return (
     <form className="mt-4 w-full" action="">
-      <input
-        type="text"
+      <TextField
+        variant="search"
         value={value}
         onChange={(event) => onChange?.(event.target.value)}
         placeholder="Search"
-        className="w-full rounded-[24px] border border-gray-300 px-5 py-4 text-2xl text-gray-500 focus:outline-none"
       />
     </form>
   );

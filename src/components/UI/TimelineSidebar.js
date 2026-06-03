@@ -1,4 +1,5 @@
 import { useAppData } from "../../context/AppDataContext";
+import Badge from "./Badge";
 
 const TimelineSidebar = () => {
   const { timelineEntries } = useAppData();
@@ -16,16 +17,13 @@ const TimelineSidebar = () => {
               </h3>
               <div className="mt-3 flex flex-wrap gap-2">
                 {entry.clients.map((client) => (
-                  <span
-                    key={`${entry.date}-${client}`}
-                    className="rounded-full bg-gray-100 px-3 py-1 text-lg text-gray-500"
-                  >
+                  <Badge key={`${entry.date}-${client}`} tone="timeline" className="px-3 text-lg">
                     {client}
-                  </span>
+                  </Badge>
                 ))}
               </div>
-              <p className="mt-4 text-xl text-gray-500">
-                Worked: {entry.worked} hours | Earned: {entry.earned} EUR
+              <p className="mt-4 text-xl text-gray-500 dark:text-slate-400">
+                Worked: {entry.worked} hours | Earned: {entry.earned} {entry.currency}
               </p>
             </section>
           ))}

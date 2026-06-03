@@ -1,11 +1,14 @@
-import { Fragment, useMemo, useRef, useState } from "react";
-import AltHeader from "../header/AltHeader";
-import CardDark from "../UI/CardDark.js";
-import SearchBar from "../UI/SearchBar.js";
-import SubmitIcon from "../../assets/images/icons/submit.svg";
-import CardWhite from "../UI/CardWhite.js";
-import ClientList from "./ClientsList";
+import { useMemo, useRef, useState } from "react";
+import PageHeader from "../header/PageHeader";
+import CardDark from "../UI/CardDark";
+import SearchBar from "../UI/SearchBar";
+import CardWhite from "../UI/CardWhite";
+import ClientsList from "./ClientsList";
 import { useAppData } from "../../context/AppDataContext";
+import FormBar, { FormBarSegment } from "../UI/FormBar";
+import TextField from "../UI/TextField";
+import SelectField from "../UI/SelectField";
+import IconSubmitButton from "../UI/IconSubmitButton";
 
 const AllClients = () => {
   const { clients, addClient, deleteClient, clientsSummary } = useAppData();
@@ -48,12 +51,12 @@ const AllClients = () => {
   };
 
   return (
-    <Fragment>
-      <AltHeader type="Manage your clients" />
+    <>
+      <PageHeader title="Manage your clients" />
 
       <section className="mt-4 flex flex-col gap-4 xl:flex-row">
         <div className="xl:w-1/3 xl:pr-1">
-          <CardDark backgroundType="liquid">
+          <CardDark variant="liquid">
             <div className="mt-4 flex justify-between">
               <div>
                 <p className="text-7xl font-medium">{clientsSummary.totalHours}</p>
@@ -69,9 +72,11 @@ const AllClients = () => {
         </div>
 
         <div className="xl:w-2/3 xl:pl-1">
-          <CardDark backgroundType="bg-[#9570e2]">
+          <CardDark variant="purple">
             <div className="mt-4 text-center">
-              <p className="text-7xl font-medium">{clientsSummary.plannedIncome} €</p>
+              <p className="text-7xl font-medium">
+                {clientsSummary.plannedIncome} {clientsSummary.currency}
+              </p>
               <p className="mt-4 text-2xl">Planned income</p>
             </div>
           </CardDark>
@@ -85,45 +90,45 @@ const AllClients = () => {
       <section>
         <CardWhite>
           <form onSubmit={submitClientHandler}>
-            <div className="flex flex-col overflow-hidden rounded-[28px] border border-gray-300 bg-white xl:flex-row">
-              <input
-                ref={clientRef}
-                type="text"
-                className="h-[84px] grow border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:border-b-0 xl:border-r"
-                placeholder="Client Name"
-              />
-              <input
-                ref={priceHourRef}
-                type="text"
-                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[210px] xl:border-b-0 xl:border-r"
-                placeholder="Price/hour"
-              />
-              <select
-                ref={currencyRef}
-                defaultValue="EUR"
-                className="h-[84px] border-b border-gray-300 bg-white px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[140px] xl:border-b-0 xl:border-r"
-              >
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="BRL">BRL</option>
-              </select>
-              <div className="flex h-[84px] items-center xl:w-[220px]">
-                <input
-                  ref={hoursMonthRef}
+            <FormBar>
+              <FormBarSegment className="grow">
+                <TextField
+                  ref={clientRef}
+                  variant="bar"
                   type="text"
-                  className="h-full grow px-7 text-[28px] font-light text-gray-500 focus:outline-none"
+                  placeholder="Client Name"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[210px]">
+                <TextField
+                  ref={priceHourRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Price/hour"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[140px]">
+                <SelectField ref={currencyRef} variant="bar" defaultValue="EUR">
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                  <option value="BRL">BRL</option>
+                </SelectField>
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[220px]" bordered={false}>
+                <TextField
+                  ref={hoursMonthRef}
+                  variant="bar"
+                  type="text"
                   placeholder="Hours/mo."
                 />
-                <button type="submit" className="px-6">
-                  <img src={SubmitIcon} className="h-11 w-11" alt="" />
-                </button>
-              </div>
-            </div>
+                <IconSubmitButton />
+              </FormBarSegment>
+            </FormBar>
           </form>
-          <ClientList clients={filteredClients} onDelete={deleteClient} />
+          <ClientsList clients={filteredClients} onDelete={deleteClient} />
         </CardWhite>
       </section>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,21 +1,21 @@
 import ClientItem from "./ClientItem";
 
-const ClientList = (props) => {
-  const clients = props.clients;
-
-  const clientList = clients.map((clients) => (
-    <ClientItem
-      key={clients.id}
-      id={clients.id}
-      clientName={clients.client}
-      pricehour={clients.pricehour}
-      currency={clients.currency}
-      hoursmonth={clients.hoursmonth}
-      onDelete={props.onDelete}
-    />
-  ));
-
-  return <ul className="pt-3">{clientList}</ul>;
+const ClientsList = ({ clients, onDelete }) => {
+  return (
+    <ul className="pt-3">
+      {clients.map((client) => (
+        <ClientItem
+          key={client.id}
+          id={client.id}
+          clientName={client.client}
+          pricehour={client.pricehour}
+          currency={client.currency}
+          hoursmonth={client.hoursmonth}
+          onDelete={onDelete}
+        />
+      ))}
+    </ul>
+  );
 };
 
-export default ClientList;
+export default ClientsList;
