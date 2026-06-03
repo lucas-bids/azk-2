@@ -71,7 +71,7 @@ const AllReports = () => {
             <select
               value={currency}
               onChange={(event) => setCurrency(event.target.value)}
-              className="bg-white px-5 py-4 text-xl text-gray-500 focus:outline-none lg:w-[200px]"
+              className="rounded-r-2xl bg-white px-5 py-4 text-xl text-gray-500 focus:outline-none lg:w-[200px]"
             >
               <option value="EUR">Display currency</option>
               <option value="EUR">EUR</option>
@@ -82,7 +82,7 @@ const AllReports = () => {
         </div>
 
         <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 w-2/3">
             {clients.map((client) => (
               <button
                 key={client.id}

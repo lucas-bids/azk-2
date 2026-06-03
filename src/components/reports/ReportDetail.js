@@ -41,7 +41,7 @@ const ReportDetail = () => {
         <section className="flex flex-col gap-10 xl:flex-row xl:justify-between">
           <div>
             <h2 className="text-3xl font-medium text-gray-700">Selected clients</h2>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3 w-2/3">
               {report.clients.map((client) => (
                 <span
                   key={client.id}
@@ -74,7 +74,7 @@ const ReportDetail = () => {
         </section>
 
         <section className="mt-8 overflow-hidden rounded-3xl">
-          <div className="flex rounded-2xl border border-gray-300 px-4 py-4 text-2xl font-medium text-gray-700">
+          <div className="flex px-4 pb-4 text-2xl font-medium text-gray-700">
             <div className="grow">Client</div>
             <div className="w-[160px] text-center">Time(hrs)</div>
             <div className="w-[160px] text-center">Price/hr</div>

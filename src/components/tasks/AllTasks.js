@@ -121,50 +121,46 @@ const AllTasks = () => {
 
       <section>
         <CardWhite>
-          <form onSubmit={submitTaskHandler} className="flex flex-col gap-3 xl:flex-row">
-            <input
-              ref={enteredDateRef}
-              type="date"
-              defaultValue="2022-12-13"
-              className="h-[64px] rounded-[24px] border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:w-[220px] xl:rounded-r-none"
-            />
-            <select
-              ref={enteredClientRef}
-              defaultValue={clients[0]?.client}
-              className="h-[64px] border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:w-[260px] xl:rounded-none xl:border-l-0"
-            >
-              {clients.map((client) => (
-                <option key={client.id} value={client.client}>
-                  {client.client}
-                </option>
-              ))}
-            </select>
-            <input
-              ref={enteredTaskRef}
-              type="text"
-              className="h-[64px] grow border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:border-l-0 xl:border-r-0"
-              placeholder="Task"
-            />
-            <div className="flex h-[64px] rounded-[24px] border border-gray-300 xl:w-[180px] xl:rounded-l-none">
+          <form onSubmit={submitTaskHandler}>
+            <div className="flex flex-col overflow-hidden rounded-[28px] border border-gray-300 bg-white xl:flex-row">
               <input
-                ref={enteredTimeRef}
-                type="time"
-                defaultValue="01:30"
-                className="h-full grow px-4 text-xl text-gray-500 focus:outline-none"
+                ref={enteredDateRef}
+                type="date"
+                defaultValue="2022-12-13"
+                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[270px] xl:border-b-0 xl:border-r"
               />
-              <button type="submit" className="h-full p-3">
-                <img src={SubmitIcon} className="h-full" alt="" />
-              </button>
+              <input
+                ref={enteredClientRef}
+                type="text"
+                list="task-client-options"
+                defaultValue={clients[0]?.client || ""}
+                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[360px] xl:border-b-0 xl:border-r"
+                placeholder="Client"
+              />
+              <datalist id="task-client-options">
+                {clients.map((client) => (
+                  <option key={client.id} value={client.client} />
+                ))}
+              </datalist>
+              <input
+                ref={enteredTaskRef}
+                type="text"
+                className="h-[84px] grow border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:border-b-0 xl:border-r"
+                placeholder="Task"
+              />
+              <div className="flex h-[84px] items-center xl:w-[330px]">
+                <input
+                  ref={enteredTimeRef}
+                  type="time"
+                  defaultValue="01:30"
+                  className="h-full grow px-7 text-[28px] font-light text-gray-500 focus:outline-none"
+                />
+                <button type="submit" className="px-6">
+                  <img src={SubmitIcon} className="h-11 w-11" alt="" />
+                </button>
+              </div>
             </div>
           </form>
-
-          <div className="mt-4 flex rounded-[24px] border border-gray-300 px-4 py-4 text-2xl text-gray-500">
-            <div className="w-1/5 border-r border-gray-300">Date</div>
-            <div className="w-1/5 border-r border-gray-300 pl-3">Client</div>
-            <div className="grow border-r border-gray-300 pl-3">Task</div>
-            <div className="w-[140px] pl-3">Duration</div>
-          </div>
-
           <List tasks={filteredTasks} onDelete={deleteTask} />
         </CardWhite>
       </section>

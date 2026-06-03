@@ -84,48 +84,42 @@ const AllClients = () => {
 
       <section>
         <CardWhite>
-          <form onSubmit={submitClientHandler} className="flex flex-col gap-3 xl:flex-row">
-            <input
-              ref={clientRef}
-              type="text"
-              className="h-[64px] grow rounded-[24px] border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:rounded-r-none"
-              placeholder="Client Name"
-            />
-            <input
-              ref={priceHourRef}
-              type="text"
-              className="h-[64px] border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:w-[180px] xl:rounded-none xl:border-l-0"
-              placeholder="Price/hour"
-            />
-            <select
-              ref={currencyRef}
-              defaultValue="EUR"
-              className="h-[64px] border border-gray-300 px-4 text-xl text-gray-500 focus:outline-none xl:w-[120px] xl:rounded-none xl:border-l-0"
-            >
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-              <option value="BRL">BRL</option>
-            </select>
-            <div className="flex h-[64px] rounded-[24px] border border-gray-300 xl:w-[220px] xl:rounded-l-none xl:border-l-0">
+          <form onSubmit={submitClientHandler}>
+            <div className="flex flex-col overflow-hidden rounded-[28px] border border-gray-300 bg-white xl:flex-row">
               <input
-                ref={hoursMonthRef}
+                ref={clientRef}
                 type="text"
-                className="h-full grow px-4 text-xl text-gray-500 focus:outline-none"
-                placeholder="Hours/mo."
+                className="h-[84px] grow border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:border-b-0 xl:border-r"
+                placeholder="Client Name"
               />
-              <button type="submit" className="h-full p-3">
-                <img src={SubmitIcon} className="h-full" alt="" />
-              </button>
+              <input
+                ref={priceHourRef}
+                type="text"
+                className="h-[84px] border-b border-gray-300 px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[210px] xl:border-b-0 xl:border-r"
+                placeholder="Price/hour"
+              />
+              <select
+                ref={currencyRef}
+                defaultValue="EUR"
+                className="h-[84px] border-b border-gray-300 bg-white px-7 text-[28px] font-light text-gray-500 focus:outline-none xl:w-[140px] xl:border-b-0 xl:border-r"
+              >
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="BRL">BRL</option>
+              </select>
+              <div className="flex h-[84px] items-center xl:w-[220px]">
+                <input
+                  ref={hoursMonthRef}
+                  type="text"
+                  className="h-full grow px-7 text-[28px] font-light text-gray-500 focus:outline-none"
+                  placeholder="Hours/mo."
+                />
+                <button type="submit" className="px-6">
+                  <img src={SubmitIcon} className="h-11 w-11" alt="" />
+                </button>
+              </div>
             </div>
           </form>
-
-          <div className="mt-4 flex rounded-[24px] border border-gray-300 px-4 py-4 text-2xl text-gray-500">
-            <div className="grow border-r border-gray-300">Client Name</div>
-            <div className="w-[180px] border-r border-gray-300 pl-3">Price/hour</div>
-            <div className="w-[120px] border-r border-gray-300 pl-3">EUR</div>
-            <div className="w-[180px] pl-3">Hours/mo.</div>
-          </div>
-
           <ClientList clients={filteredClients} onDelete={deleteClient} />
         </CardWhite>
       </section>
