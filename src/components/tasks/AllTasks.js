@@ -69,23 +69,23 @@ const AllTasks = () => {
 
       <section className="mt-4 w-full">
         <CardDark variant="liquid">
-          <h2 className="text-2xl font-medium">This month alone:</h2>
-          <div className="mt-8 flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
+          <h2 className="text-lg font-medium">This month alone:</h2>
+          <div className="mt-5 flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-7xl font-medium">{dashboardSummary.hoursInput}</p>
-              <p className="mt-4 text-2xl">Hours input</p>
+              <p className="text-5xl font-medium">{dashboardSummary.hoursInput}</p>
+              <p className="mt-2 text-sm">Hours input</p>
             </div>
-            <div className="hidden h-32 border border-white xl:block"></div>
+            <div className="hidden h-20 border border-white/70 xl:block"></div>
             <div>
-              <p className="text-7xl font-medium">
+              <p className="text-5xl font-medium">
                 {dashboardSummary.cashEarned} {dashboardSummary.currency}
               </p>
-              <p className="mt-4 text-2xl">Cash earned</p>
+              <p className="mt-2 text-sm">Cash earned</p>
             </div>
-            <div className="hidden h-32 border border-white xl:block"></div>
+            <div className="hidden h-20 border border-white/70 xl:block"></div>
             <div>
-              <p className="text-7xl font-medium">{dashboardSummary.tasksCreated}</p>
-              <p className="mt-4 text-2xl">Tasks created</p>
+              <p className="text-5xl font-medium">{dashboardSummary.tasksCreated}</p>
+              <p className="mt-2 text-sm">Tasks created</p>
             </div>
           </div>
         </CardDark>
@@ -96,7 +96,7 @@ const AllTasks = () => {
         <SectionHeader
           title="Your tasks"
           actions={
-            <div className="flex flex-wrap items-center gap-3 text-2xl text-gray-400">
+            <div className="flex flex-wrap items-center gap-2.5 text-sm text-gray-400">
               <h2 className={mutedHeadingClass}>Filters:</h2>
               <TextField
                 variant="filter"
@@ -132,7 +132,7 @@ const AllTasks = () => {
         <CardWhite>
           <form onSubmit={submitTaskHandler}>
             <FormBar>
-              <FormBarSegment widthClass="xl:w-[270px]">
+              <FormBarSegment widthClass="xl:w-[210px]">
                 <TextField
                   ref={enteredDateRef}
                   variant="bar"
@@ -140,7 +140,7 @@ const AllTasks = () => {
                   defaultValue="2022-12-13"
                 />
               </FormBarSegment>
-              <FormBarSegment widthClass="xl:w-[360px]">
+              <FormBarSegment widthClass="xl:w-[280px]">
                 <TextField
                   ref={enteredClientRef}
                   variant="bar"
@@ -163,7 +163,7 @@ const AllTasks = () => {
                   placeholder="Task"
                 />
               </FormBarSegment>
-              <FormBarSegment widthClass="xl:w-[330px]" bordered={false}>
+              <FormBarSegment widthClass="xl:w-[220px]" bordered={false}>
                 <TextField
                   ref={enteredTimeRef}
                   variant="bar"

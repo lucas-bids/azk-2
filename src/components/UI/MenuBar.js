@@ -10,21 +10,21 @@ import reportsIconGray from "../../assets/images/icons/reports-gray.svg";
 
 import { NavLink } from "react-router-dom";
 
-const navLinkClass = "block p-4";
+const navLinkClass = "block p-3";
 
 const MenuBar = () => {
   return (
-    <div className="hidden w-[130px] shrink-0 justify-center lg:flex">
-      <div className="w-full p-3">
-        <nav className="flex h-full min-h-[calc(100vh-24px)] flex-col items-center justify-between rounded-[30px] bg-white px-6 py-8 shadow">
-          <NavLink to="/dashboard" className={navLinkClass} aria-label="Home">
-            <img className="w-20" src={purpleLogo} alt="azk home" />
+    <div className="hidden w-[104px] shrink-0 justify-center lg:flex">
+      <div className="w-full p-2">
+        <nav className="flex h-full min-h-[calc(100vh-16px)] flex-col items-center justify-between rounded-[24px] bg-white px-4 py-6 shadow dark:bg-slate-900">
+          <NavLink to="/dashboard" className="block" aria-label="Home">
+            <img className="w-14" src={purpleLogo} alt="azk home" />
           </NavLink>
           <div className="flex flex-col">
             <NavLink to="/dashboard" className={navLinkClass} aria-label="Tasks">
               {({ isActive }) => (
                 <img
-                  className="w-18"
+                  className="w-8"
                   src={isActive ? homeIcon : homeIconGray}
                   alt=""
                 />
@@ -33,7 +33,7 @@ const MenuBar = () => {
             <NavLink to="/clients" className={navLinkClass} aria-label="Clients">
               {({ isActive }) => (
                 <img
-                  className="w-18"
+                  className="w-8"
                   src={isActive ? clientsIcon : clientsIconGray}
                   alt=""
                 />
@@ -42,7 +42,7 @@ const MenuBar = () => {
             <NavLink to="/reports" className={navLinkClass} aria-label="Reports">
               {({ isActive }) => (
                 <img
-                  className="w-18"
+                  className="w-8"
                   src={isActive ? reportsIcon : reportsIconGray}
                   alt=""
                 />
@@ -50,7 +50,7 @@ const MenuBar = () => {
             </NavLink>
           </div>
           <NavLink to="/" className={navLinkClass} aria-label="Log out">
-            <img className="w-18 pb-0" src={logoutIcon} alt="" />
+            <img className="w-8 pb-0" src={logoutIcon} alt="" />
           </NavLink>
         </nav>
       </div>

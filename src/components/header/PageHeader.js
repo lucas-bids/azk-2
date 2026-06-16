@@ -1,13 +1,13 @@
 import DarkMode from "../login/DarkMode";
 
 const titleSizeClass = {
-  default: "text-5xl",
-  large: "text-6xl",
+  default: "text-[30px]",
+  large: "text-[32px]",
 };
 
 const PageHeader = ({ title, size = "default" }) => {
   return (
-    <header className="flex items-end justify-between pt-3">
+    <header className="flex items-end justify-between pt-2">
       <h1
         className={`font-medium text-gray-700 dark:text-slate-100 ${titleSizeClass[size]}`}
       >

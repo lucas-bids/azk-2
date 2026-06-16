@@ -10,7 +10,7 @@ export const FormBarSegment = ({
   className = "",
   bordered = true,
 }) => {
-  const borderClass = bordered ? formBarSegmentClass : "flex h-[84px] items-center";
+  const borderClass = bordered ? formBarSegmentClass : "flex items-center";
 
   return (
     <div className={`${borderClass} ${widthClass} ${className}`.trim()}>

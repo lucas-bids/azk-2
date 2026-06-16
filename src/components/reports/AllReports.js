@@ -54,7 +54,7 @@ const AllReports = () => {
       <CardWhite>
         <FormBar>
           <FormBarSegment className="grow">
-            <div className="px-7 text-[28px] font-light text-gray-500 dark:text-slate-200">
+            <div className="px-4 text-sm font-light text-gray-500 dark:text-slate-200">
               Select one or more clients
             </div>
           </FormBarSegment>
@@ -87,8 +87,8 @@ const AllReports = () => {
           </FormBarSegment>
         </FormBar>
 
-        <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex w-2/3 flex-wrap gap-3">
+        <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex w-2/3 flex-wrap gap-2">
             {clients.map((client) => (
               <button
                 key={client.id}
@@ -98,7 +98,6 @@ const AllReports = () => {
               >
                 <Badge
                   tone={selectedClientIds.includes(client.id) ? "selected" : "timeline"}
-                  className="text-lg"
                 >
                   {client.client.replace(".org", "")}
                 </Badge>
@@ -106,29 +105,29 @@ const AllReports = () => {
             ))}
           </div>
 
-          <Button type="button" onClick={createReportHandler} className="rounded-2xl">
+          <Button type="button" onClick={createReportHandler}>
             Create report
           </Button>
         </div>
       </CardWhite>
 
-      <section className="mt-10">
+      <section className="mt-8">
         <SectionHeader title="Your reports" />
-        <div className="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+        <div className="mt-4 grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
           {savedReports.map((report, index) => (
             <button
               key={report.id}
               type="button"
               onClick={() => navigate(`/reports/${report.id}`)}
-              className={`min-h-[240px] rounded-3xl p-6 text-left text-white ${
+              className={`min-h-[190px] rounded-[22px] p-5 text-left text-white ${
                 reportCardStyles[index % reportCardStyles.length]
               }`}
             >
-              <p className="text-2xl font-medium">{report.title}</p>
-              <p className="mt-4 text-2xl font-light leading-10">
+              <p className="text-lg font-medium">{report.title}</p>
+              <p className="mt-3 text-base font-light leading-7">
                 {report.clients.map((client) => client.client.replace(".org", "")).join(", ")}
               </p>
-              <p className="mt-10 text-2xl font-medium">Currency: {report.currency}</p>
+              <p className="mt-6 text-base font-medium">Currency: {report.currency}</p>
             </button>
           ))}
         </div>

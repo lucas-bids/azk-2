@@ -1,4 +1,4 @@
-import { surfaceCardClass } from "./uiClasses";
+import { elevatedCardShellClass } from "./uiClasses";
 
 const backgroundVariants = {
   liquid: "bg-liquid-2",
@@ -10,7 +10,7 @@ const CardDark = ({ variant = "liquid", children }) => {
 
   return (
     <div
-      className={`${surfaceCardClass} w-full bg-cover p-6 text-white ${background}`}
+      className={`w-full bg-cover p-4 text-white ${background} ${elevatedCardShellClass}`}
     >
       {children}
     </div>

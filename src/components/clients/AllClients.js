@@ -59,13 +59,13 @@ const AllClients = () => {
           <CardDark variant="liquid">
             <div className="mt-4 flex justify-between">
               <div>
-                <p className="text-7xl font-medium">{clientsSummary.totalHours}</p>
-                <p className="mt-4 text-2xl">Total hours</p>
+                <p className="text-5xl font-medium">{clientsSummary.totalHours}</p>
+                <p className="mt-2 text-sm">Total hours</p>
               </div>
-              <div className="mx-4 hidden border border-white xl:block"></div>
+              <div className="mx-3 hidden h-20 border border-white/70 xl:block"></div>
               <div>
-                <p className="text-7xl font-medium">{clientsSummary.hoursLeft}</p>
-                <p className="mt-4 text-2xl">Hours left</p>
+                <p className="text-5xl font-medium">{clientsSummary.hoursLeft}</p>
+                <p className="mt-2 text-sm">Hours left</p>
               </div>
             </div>
           </CardDark>
@@ -74,10 +74,10 @@ const AllClients = () => {
         <div className="xl:w-2/3 xl:pl-1">
           <CardDark variant="purple">
             <div className="mt-4 text-center">
-              <p className="text-7xl font-medium">
+              <p className="text-5xl font-medium">
                 {clientsSummary.plannedIncome} {clientsSummary.currency}
               </p>
-              <p className="mt-4 text-2xl">Planned income</p>
+              <p className="mt-2 text-sm">Planned income</p>
             </div>
           </CardDark>
         </div>
@@ -99,7 +99,7 @@ const AllClients = () => {
                   placeholder="Client Name"
                 />
               </FormBarSegment>
-              <FormBarSegment widthClass="xl:w-[210px]">
+              <FormBarSegment widthClass="xl:w-[180px]">
                 <TextField
                   ref={priceHourRef}
                   variant="bar"
@@ -107,14 +107,14 @@ const AllClients = () => {
                   placeholder="Price/hour"
                 />
               </FormBarSegment>
-              <FormBarSegment widthClass="xl:w-[140px]">
+              <FormBarSegment widthClass="xl:w-[120px]">
                 <SelectField ref={currencyRef} variant="bar" defaultValue="EUR">
                   <option value="EUR">EUR</option>
                   <option value="USD">USD</option>
                   <option value="BRL">BRL</option>
                 </SelectField>
               </FormBarSegment>
-              <FormBarSegment widthClass="xl:w-[220px]" bordered={false}>
+              <FormBarSegment widthClass="xl:w-[180px]" bordered={false}>
                 <TextField
                   ref={hoursMonthRef}
                   variant="bar"
