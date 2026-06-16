@@ -1,17 +1,21 @@
 import TaskItem from "./TaskItem";
 
-const List = (props) => {
-  const tasks = props.tasks
-
-  const tasksList = tasks.map((task) => (
-    <TaskItem key={task.id} id={task.id} date={task.date} client={task.client} task={task.task} time={task.time} refresh={props.refresh} />
-  ));
-
+const TasksList = ({ tasks, onDelete }) => {
   return (
     <ul className="pt-3">
-      {tasksList}
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          id={task.id}
+          date={task.date}
+          client={task.client}
+          task={task.task}
+          time={task.time}
+          onDelete={onDelete}
+        />
+      ))}
     </ul>
   );
 };
 
-export default List;
+export default TasksList;

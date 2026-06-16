@@ -1,17 +1,18 @@
-const CardDark = (props) => {
-  let background = ""
+import { elevatedCardShellClass } from "./uiClasses";
 
-  if (props.backgroundType === "liquid") {
-    background = "bg-liquid-2";
-  } else {
-    background = props.backgroundType;
-  }
+const backgroundVariants = {
+  liquid: "bg-liquid-2",
+  purple: "bg-[#9570e2]",
+};
+
+const CardDark = ({ variant = "liquid", children }) => {
+  const background = backgroundVariants[variant] || backgroundVariants.liquid;
 
   return (
     <div
-      className={`w-full rounded-2xl p-5 bg-cover text-white ${background}`}
+      className={`w-full bg-cover p-4 text-white ${background} ${elevatedCardShellClass}`}
     >
-      {props.children}
+      {children}
     </div>
   );
 };

@@ -10,40 +10,48 @@ import reportsIconGray from "../../assets/images/icons/reports-gray.svg";
 
 import { NavLink } from "react-router-dom";
 
-const MenuBar = () => {
+const navLinkClass = "block p-3";
 
+const MenuBar = () => {
   return (
-    <div className="w-1/12 flex justify-center">
-      <div className="p-3 h-[800px] w-fit">
-        <nav className=" bg-white rounded-2xl shadow h-full flex flex-col justify-between items-center">
-          <NavLink to="/tasks">
-            <button>
-              <img className="w-20 p-4" src={purpleLogo} alt="" />
-            </button>
+    <div className="hidden w-[104px] shrink-0 justify-center lg:flex">
+      <div className="w-full p-2">
+        <nav className="flex h-full min-h-[calc(100vh-16px)] flex-col items-center justify-between rounded-[24px] bg-white px-4 py-6 shadow dark:bg-slate-900">
+          <NavLink to="/dashboard" className="block" aria-label="Home">
+            <img className="w-14" src={purpleLogo} alt="azk home" />
           </NavLink>
           <div className="flex flex-col">
-            <NavLink to="/tasks">
-              {({isActive}) => (
-                <img className="w-18 p-4" src={isActive ? homeIcon : homeIconGray} alt="" />
-              )
-              }
+            <NavLink to="/dashboard" className={navLinkClass} aria-label="Tasks">
+              {({ isActive }) => (
+                <img
+                  className="w-8"
+                  src={isActive ? homeIcon : homeIconGray}
+                  alt=""
+                />
+              )}
             </NavLink>
-            <NavLink to="/clients">
-            {({isActive}) => (
-                <img className="w-18 p-4" src={isActive ? clientsIcon : clientsIconGray} alt="" />
-              )
-              }
+            <NavLink to="/clients" className={navLinkClass} aria-label="Clients">
+              {({ isActive }) => (
+                <img
+                  className="w-8"
+                  src={isActive ? clientsIcon : clientsIconGray}
+                  alt=""
+                />
+              )}
             </NavLink>
-              <NavLink to="/reports">
-              {({isActive}) => (
-                <img className="w-18 p-4" src={isActive ? reportsIcon : reportsIconGray} alt="" />
-              )
-              }
-              </NavLink>
+            <NavLink to="/reports" className={navLinkClass} aria-label="Reports">
+              {({ isActive }) => (
+                <img
+                  className="w-8"
+                  src={isActive ? reportsIcon : reportsIconGray}
+                  alt=""
+                />
+              )}
+            </NavLink>
           </div>
-          <button>
-            <img className="w-18 p-4" src={logoutIcon} alt="" />
-          </button>
+          <NavLink to="/" className={navLinkClass} aria-label="Log out">
+            <img className="w-8 pb-0" src={logoutIcon} alt="" />
+          </NavLink>
         </nav>
       </div>
     </div>

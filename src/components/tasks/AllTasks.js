@@ -1,80 +1,42 @@
-import CardDark from "../UI/CardDark.js";
-import SearchBar from "../UI/SearchBar.js";
+import { useMemo, useRef, useState } from "react";
+import CardDark from "../UI/CardDark";
+import SearchBar from "../UI/SearchBar";
+import CardWhite from "../UI/CardWhite";
+import TasksList from "./TasksList";
+import PageHeader from "../header/PageHeader";
+import { useAppData } from "../../context/AppDataContext";
+import FormBar, { FormBarSegment } from "../UI/FormBar";
+import TextField from "../UI/TextField";
+import SelectField from "../UI/SelectField";
+import SectionHeader from "../UI/SectionHeader";
+import IconSubmitButton from "../UI/IconSubmitButton";
+import { mutedHeadingClass } from "../UI/uiClasses";
 
-import SubmitIcon from "../../assets/images/icons/submit.svg";
-import CardWhite from "../UI/CardWhite.js";
-import List from "./TasksList.js";
-import { Fragment, useRef } from "react";
-import { useState, useEffect } from "react";
-import TasksHeader from "../header/TasksHeader.js";
+const AllTasks = () => {
+  const { tasks, clients, addTask, deleteTask, dashboardSummary } = useAppData();
+  const [searchValue, setSearchValue] = useState("");
+  const [startDate, setStartDate] = useState("2022-05-01");
+  const [endDate, setEndDate] = useState("2022-12-20");
+  const [selectedClient, setSelectedClient] = useState("");
 
-const AllTasks = (props) => {
-  const [tasks, setTasks] = useState([]);
-  const [clients, setClients] = useState([]);
-  const [clientEl, setClientEl] = useState();
-
-  const retrieveTasks = async () => {
-    const response = await fetch(
-      "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json"
-    );
-    const responseData = await response.json();
-
-    const loadedTasks = [];
-
-    for (const key in responseData) {
-      loadedTasks.unshift({
-        id: key,
-        date: responseData[key].Date,
-        client: responseData[key].Client,
-        task: responseData[key].Task,
-        time: responseData[key].Time,
-      });
-    }
-
-    setTasks(loadedTasks);
-
-    
-  };
-
-  const retrieveClients = async () => {
-    const clientResponse = await fetch(
-      "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
-    );
-    const clientList = await clientResponse.json();
-    console.log(clientList);
-
-    const loadedClients = [];
-
-    for (const key in clientList) {
-      loadedClients.push({
-        id: key,
-        clientName: clientList[key].Client,
-      });
-    }
-
-    setClients(loadedClients);
-  }
-  
-  // Loads tasks
-  useEffect(() => {
-    retrieveTasks();
-    retrieveClients();
-  }, []);
-  
-  useEffect(() => {
-    const clientsDropdown = clients.map((client) => (
-      <option key={client.id} value={client.clientName}>
-        {client.clientName}
-      </option>
-    ));
-    setClientEl(clientsDropdown);
-  }, [clients])
-
-  // Takes input value from task form and sends it to Firebase
   const enteredDateRef = useRef();
   const enteredClientRef = useRef();
   const enteredTaskRef = useRef();
   const enteredTimeRef = useRef();
+
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      const matchesSearch =
+        !searchValue ||
+        task.client.toLowerCase().includes(searchValue.toLowerCase()) ||
+        task.task.toLowerCase().includes(searchValue.toLowerCase());
+      const matchesStartDate = !startDate || task.date >= startDate;
+      const matchesEndDate = !endDate || task.date <= endDate;
+      const matchesClient = !selectedClient || task.client === selectedClient;
+
+      return matchesSearch && matchesStartDate && matchesEndDate && matchesClient;
+    });
+  }, [endDate, searchValue, selectedClient, startDate, tasks]);
 
   const submitTaskHandler = (event) => {
     event.preventDefault();
@@ -84,149 +46,138 @@ const AllTasks = (props) => {
     const enteredTask = enteredTaskRef.current.value;
     const enteredTime = enteredTimeRef.current.value;
 
-    const newTaskData = {
-      Date: enteredDate,
-      Client: enteredClient,
-      Task: enteredTask,
-      Time: enteredTime,
-    };
+    if (!enteredDate || !enteredClient || !enteredTask || !enteredTime) {
+      return;
+    }
 
-    const postTask = async (newTask) => {
-      const response = await fetch(
-        "https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks.json",
-        {
-          method: "POST",
-          body: JSON.stringify(newTask),
-          headers: { "Content-Type": "application.json" },
-        }
-      );
-      const data = await response.json();
+    addTask({
+      date: enteredDate,
+      client: enteredClient,
+      task: enteredTask,
+      time: enteredTime,
+    });
 
-      const taskData = {
-        id: data.name,
-        date: enteredDate,
-        client: enteredClient,
-        task: enteredTask,
-        time: enteredTime,
-      };
-
-      setTasks((tasks) => [taskData, ...tasks]);
-    };
-
-    postTask(newTaskData);
+    enteredDateRef.current.value = "";
+    enteredClientRef.current.value = clients[0]?.client || "";
+    enteredTaskRef.current.value = "";
+    enteredTimeRef.current.value = "";
   };
 
-  // const selectClickHandler = async () => {
-  //   const response = await fetch(
-  //     "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
-  //   );
-  //   const clientList = await response.json();
-  //   console.log(clientList);
-  //   const loadedClients = []
-
-  //   for(const key in ClientList) {
-  //     loadedClients.push({
-  //       id: key,
-  //       clientName: clientList[key].Client
-  //     })
-  //   }
-
-  //   setClients(loadedClients);
-
-  //   const clientsDropdown = loadedClients.map((client) => {
-  //     <option value="{client.Client}">{client.Client}</option>
-  //   })
-
-  // };
-
   return (
-    <Fragment>
-      <TasksHeader />
+    <>
+      <PageHeader title="Hello, Lucas" size="large" />
 
-      <section className="w-full mt-4">
-        <CardDark backgroundType="liquid">
-          <h2>This month alone</h2>
-          <div className="flex mt-4 justify-between">
+      <section className="mt-4 w-full">
+        <CardDark variant="liquid">
+          <h2 className="text-lg font-medium">This month alone:</h2>
+          <div className="mt-5 flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className=" text-6xl font-medium">56.4</p>
-              <p className="mt-2">Hours input</p>
+              <p className="text-5xl font-medium">{dashboardSummary.hoursInput}</p>
+              <p className="mt-2 text-sm">Hours input</p>
             </div>
-            <div className="border border-white"></div>
+            <div className="hidden h-20 border border-white/70 xl:block"></div>
             <div>
-              <p className=" text-6xl font-medium">1,378.45 €</p>
-              <p className="mt-2">Cash generated</p>
+              <p className="text-5xl font-medium">
+                {dashboardSummary.cashEarned} {dashboardSummary.currency}
+              </p>
+              <p className="mt-2 text-sm">Cash earned</p>
             </div>
-            <div className="border border-white"></div>
+            <div className="hidden h-20 border border-white/70 xl:block"></div>
             <div>
-              <p className=" text-6xl font-medium">128</p>
-              <p className="mt-2">Tasks input</p>
+              <p className="text-5xl font-medium">{dashboardSummary.tasksCreated}</p>
+              <p className="mt-2 text-sm">Tasks created</p>
             </div>
           </div>
         </CardDark>
       </section>
 
       <section>
-        <SearchBar />
-        <div className="flex justify-between mt-4">
-          <h2>Your tasks</h2>
-          <div className="flex">
-            <h2 className="mr-2">Filters:</h2>
-            <form className="text-gray-400" action="">
-              <input type="date" className=" bg-gray-50 w-[120px] mr-2" />
-              <input type="date" className=" bg-gray-50 w-[120px] mr-2" />
-              <select id="cars" name="cars" className="bg-gray-50">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="fiat">Fiat</option>
-                <option value="audi">Audi</option>
-              </select>
-            </form>
-          </div>
-        </div>
+        <SearchBar value={searchValue} onChange={setSearchValue} />
+        <SectionHeader
+          title="Your tasks"
+          actions={
+            <div className="flex flex-wrap items-center gap-2.5 text-sm text-gray-400">
+              <h2 className={mutedHeadingClass}>Filters:</h2>
+              <TextField
+                variant="filter"
+                type="date"
+                value={startDate}
+                onChange={(event) => setStartDate(event.target.value)}
+              />
+              <span>-</span>
+              <TextField
+                variant="filter"
+                type="date"
+                value={endDate}
+                onChange={(event) => setEndDate(event.target.value)}
+              />
+              <SelectField
+                variant="filter"
+                value={selectedClient}
+                onChange={(event) => setSelectedClient(event.target.value)}
+              >
+                <option value="">Client</option>
+                {clients.map((client) => (
+                  <option key={client.id} value={client.client}>
+                    {client.client}
+                  </option>
+                ))}
+              </SelectField>
+            </div>
+          }
+        />
       </section>
 
       <section>
         <CardWhite>
-          <form
-            action=""
-            onSubmit={submitTaskHandler}
-            className="h-[50px] flex"
-          >
-            <input
-              ref={enteredDateRef}
-              type="date"
-              className="h-[50px] focus:outline-none w-1/5 rounded-l-2xl border border-gray-300 px-4"
-            />
-            <input
-              ref={enteredClientRef}
-              type="text"
-              className="h-[50px] focus:outline-none w-1/5 border-y border-gray-300 px-4"
-              placeholder="Client name"
-            />
-            <select name="" id="">
-              {clientEl}
-            </select>
-            <input
-              ref={enteredTaskRef}
-              type="text"
-              className="h-[50px] focus:outline-none grow border-y border-l border-gray-300 px-4"
-              placeholder="Task"
-            />
-            <div className="h-[50px] flex w-1/10 rounded-r-2xl border border-gray-300 pl-4">
-              <input
-                ref={enteredTimeRef}
-                type="time"
-                className="focus:outline-none h-full"
-              />
-              <button type="submit" className="h-full p-2">
-                <img src={SubmitIcon} className="h-full" alt="" />
-              </button>
-            </div>
+          <form onSubmit={submitTaskHandler}>
+            <FormBar>
+              <FormBarSegment widthClass="xl:w-[210px]">
+                <TextField
+                  ref={enteredDateRef}
+                  variant="bar"
+                  type="date"
+                  defaultValue="2022-12-13"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[280px]">
+                <TextField
+                  ref={enteredClientRef}
+                  variant="bar"
+                  type="text"
+                  list="task-client-options"
+                  defaultValue={clients[0]?.client || ""}
+                  placeholder="Client"
+                />
+              </FormBarSegment>
+              <datalist id="task-client-options">
+                {clients.map((client) => (
+                  <option key={client.id} value={client.client} />
+                ))}
+              </datalist>
+              <FormBarSegment className="grow">
+                <TextField
+                  ref={enteredTaskRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Task"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[220px]" bordered={false}>
+                <TextField
+                  ref={enteredTimeRef}
+                  variant="bar"
+                  type="time"
+                  defaultValue="01:30"
+                />
+                <IconSubmitButton />
+              </FormBarSegment>
+            </FormBar>
           </form>
-          <List tasks={tasks} refresh={retrieveTasks} />
+          <TasksList tasks={filteredTasks} onDelete={deleteTask} />
         </CardWhite>
       </section>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,31 +1,25 @@
-import trashCan from '../../assets/images/trash-2.svg'
+import trashCan from "../../assets/images/trash-2.svg";
+import { formatDateDisplay } from "../../utils/format";
+import { tableRowClass } from "../UI/uiClasses";
 
-const TaskItem = (props) => {
-  const refresh = props.refresh;
-  const deleteHandler = async () => {
-  await fetch(`https://azkii-f3cb7-default-rtdb.firebaseio.com/alltasks/${props.id}.json`, {
-      method: 'DELETE'
-    });
-    // Fires the retrieveTasks function on the Dashboard
-    refresh();
-  }
-
+const TaskItem = ({ id, date, client, task, time, onDelete }) => {
   return (
-    <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500 group">
-      <div className="w-1/5">
-        <p>{props.date}</p>
-      </div>
-      <div className="w-1/5">
-        <p>{props.client}</p>
-      </div>
-      <div className="grow">
-        <p>{props.task}</p>
-      </div>
-      <div className="w-1/10">
-        <p>{props.time}</p>
-      </div>
-      <div className="hidden group-hover:flex" onClick={deleteHandler} >
-        <img src={trashCan} alt=""/>
+    <li className={`group flex ${tableRowClass}`}>
+      <div className="shrink-0 basis-[210px] px-3">{formatDateDisplay(date)}</div>
+      <div className="shrink-0 basis-[280px] px-3">{client}</div>
+      <div className="min-w-0 grow px-3">{task}</div>
+      <div className="shrink-0 basis-[180px] px-2.5">
+        <div className="flex items-center justify-end gap-1.5">
+          <span>{time}</span>
+          <button
+            type="button"
+            onClick={() => onDelete(id)}
+            className="hidden h-3.5 w-3.5 shrink-0 group-hover:flex"
+            aria-label="Delete task"
+          >
+            <img src={trashCan} alt="" className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
     </li>
   );

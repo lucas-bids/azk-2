@@ -1,48 +1,29 @@
-import AltHeader from "../header/AltHeader";
-import CardDark from "../UI/CardDark.js";
-import SearchBar from "../UI/SearchBar.js";
-import SubmitIcon from "../../assets/images/icons/submit.svg";
-import CardWhite from "../UI/CardWhite.js";
-import { Fragment, useRef } from "react";
-import { useState, useEffect } from "react";
-import ClientList from "./ClientsList";
+import { useMemo, useRef, useState } from "react";
+import PageHeader from "../header/PageHeader";
+import CardDark from "../UI/CardDark";
+import SearchBar from "../UI/SearchBar";
+import CardWhite from "../UI/CardWhite";
+import ClientsList from "./ClientsList";
+import { useAppData } from "../../context/AppDataContext";
+import FormBar, { FormBarSegment } from "../UI/FormBar";
+import TextField from "../UI/TextField";
+import SelectField from "../UI/SelectField";
+import IconSubmitButton from "../UI/IconSubmitButton";
 
 const AllClients = () => {
-  const [clients, setClients] = useState([]);
+  const { clients, addClient, deleteClient, clientsSummary } = useAppData();
+  const [searchValue, setSearchValue] = useState("");
 
-  const retrieveClients = async () => {
-    const response = await fetch(
-      "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json"
-    );
-    const responseData = await response.json();
-
-    console.log(responseData)
-
-    const loadedClients = [];
-
-    for (const key in responseData) {
-      loadedClients.unshift({
-        id: key,
-        client: responseData[key].Client,
-        pricehour: responseData[key].PriceHour,
-        currency: responseData[key].Currency,
-        hoursmonth: responseData[key].HoursMonth,
-      });
-    }
-
-    setClients(loadedClients);
-  };
-
-  // Loads tasks
-  useEffect(() => {
-    retrieveClients();
-  }, []);
-
-  // Takes input value from task form and sends it to Firebase
   const clientRef = useRef();
   const priceHourRef = useRef();
   const currencyRef = useRef();
   const hoursMonthRef = useRef();
+
+  const filteredClients = useMemo(() => {
+    return clients.filter((client) =>
+      client.client.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [clients, searchValue]);
 
   const submitClientHandler = (event) => {
     event.preventDefault();
@@ -52,122 +33,102 @@ const AllClients = () => {
     const enteredCurrency = currencyRef.current.value;
     const enteredHoursMonth = hoursMonthRef.current.value;
 
-    const newClientData = {
-      Client: enteredClient,
-      PriceHour: enteredPriceHour,
-      Currency: enteredCurrency,
-      HoursMonth: enteredHoursMonth,
-    };
+    if (!enteredClient || !enteredPriceHour || !enteredHoursMonth) {
+      return;
+    }
 
-    const postClient = async (newClient) => {
-      const response = await fetch(
-        "https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients.json",
-        {
-          method: "POST",
-          body: JSON.stringify(newClient),
-          headers: { "Content-Type": "application.json" },
-        }
-      );
-      const data = await response.json();
+    addClient({
+      client: enteredClient,
+      pricehour: enteredPriceHour,
+      currency: enteredCurrency,
+      hoursmonth: enteredHoursMonth,
+    });
 
-      const clientData = {
-        id: data.name,
-        client: enteredClient,
-        pricehour: enteredPriceHour,
-        currency: enteredCurrency,
-        hoursmonth: enteredHoursMonth,
-      };
-
-      setClients((clients) => [clientData, ...clients]);
-    };
-
-    postClient(newClientData);
+    clientRef.current.value = "";
+    priceHourRef.current.value = "";
+    currencyRef.current.value = "EUR";
+    hoursMonthRef.current.value = "";
   };
 
   return (
-    <Fragment>
-      <AltHeader type="Manage your clients" />
+    <>
+      <PageHeader title="Manage your clients" />
 
-      <section className="w-full mt-4 flex">
-        <div className=" w-1/3 pr-1">
-          <CardDark backgroundType="liquid">
-            <div className="flex mt-4 justify-between">
+      <section className="mt-4 flex flex-col gap-4 xl:flex-row">
+        <div className="xl:w-1/3 xl:pr-1">
+          <CardDark variant="liquid">
+            <div className="mt-4 flex justify-between">
               <div>
-                <p className=" text-6xl font-medium">56.4</p>
-                <p className="mt-2">Total Hours</p>
+                <p className="text-5xl font-medium">{clientsSummary.totalHours}</p>
+                <p className="mt-2 text-sm">Total hours</p>
               </div>
-              <div className="border border-white"></div>
+              <div className="mx-3 hidden h-20 border border-white/70 xl:block"></div>
               <div>
-                <p className=" text-6xl font-medium">10</p>
-                <p className="mt-2">Hours left</p>
+                <p className="text-5xl font-medium">{clientsSummary.hoursLeft}</p>
+                <p className="mt-2 text-sm">Hours left</p>
               </div>
             </div>
           </CardDark>
         </div>
 
-        <div className=" w-2/3 pl-1">
-          <CardDark backgroundType="bg-purple-500">
-            <div className="flex mt-4 justify-between">
-              <div>
-                <p className=" text-6xl font-medium">1850,00 €</p>
-                <p className="mt-2">Planned income</p>
-              </div>
+        <div className="xl:w-2/3 xl:pl-1">
+          <CardDark variant="purple">
+            <div className="mt-4 text-center">
+              <p className="text-5xl font-medium">
+                {clientsSummary.plannedIncome} {clientsSummary.currency}
+              </p>
+              <p className="mt-2 text-sm">Planned income</p>
             </div>
           </CardDark>
         </div>
       </section>
 
       <section>
-        <SearchBar />
+        <SearchBar value={searchValue} onChange={setSearchValue} />
       </section>
 
       <section>
         <CardWhite>
-          <form
-            action=""
-            onSubmit={submitClientHandler}
-            className="h-[50px] flex"
-          >
-            <input
-              ref={clientRef}
-              type="client"
-              className="h-[50px] focus:outline-none grow rounded-l-2xl border border-gray-300 px-4"
-              placeholder="Client Name"
-            />
-            <input
-              ref={priceHourRef}
-              type="pricehour"
-              className="h-[50px] focus:outline-none w-[120px] border-y border-gray-300 px-4"
-              placeholder="Price/hour"
-            />
-            <select
-              ref={currencyRef}
-              type="currency"
-              className="h-[50px] focus:outline-none border-y w-[70px] border-y border-gray-300 text-gray-400"
-            >
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-              <option value="BRL">BRL</option>
-            </select>
-            <div className="h-[50px] flex w-[180px] rounded-r-2xl border border-gray-300 pl-4">
-              <input
-                ref={hoursMonthRef}
-                type="hoursmonth"
-                className="focus:outline-none h-full w-[100px]"
-                placeholder="Hours/month"
-              />
-              <button
-                type="submit"
-                className="h-full p-2 w-[80px] flex justify-end"
-              >
-                <img src={SubmitIcon} className="h-full" alt="" />
-              </button>
-            </div>
+          <form onSubmit={submitClientHandler}>
+            <FormBar>
+              <FormBarSegment className="grow">
+                <TextField
+                  ref={clientRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Client Name"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[180px]">
+                <TextField
+                  ref={priceHourRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Price/hour"
+                />
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[120px]">
+                <SelectField ref={currencyRef} variant="bar" defaultValue="EUR">
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                  <option value="BRL">BRL</option>
+                </SelectField>
+              </FormBarSegment>
+              <FormBarSegment widthClass="xl:w-[180px]" bordered={false}>
+                <TextField
+                  ref={hoursMonthRef}
+                  variant="bar"
+                  type="text"
+                  placeholder="Hours/mo."
+                />
+                <IconSubmitButton />
+              </FormBarSegment>
+            </FormBar>
           </form>
-          <ClientList clients={clients} refresh={retrieveClients} />
+          <ClientsList clients={filteredClients} onDelete={deleteClient} />
         </CardWhite>
       </section>
-    </Fragment>
+    </>
   );
 };
 

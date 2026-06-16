@@ -1,30 +1,24 @@
-import trashCan from '../../assets/images/trash-2.svg'
+import trashCan from "../../assets/images/trash-2.svg";
+import { tableRowClass } from "../UI/uiClasses";
 
-const ClientItem = (props) => {
-  const deleteHandler = async () => {
-  await fetch(`https://azkii-f3cb7-default-rtdb.firebaseio.com/allclients/${props.id}.json`, {
-      method: 'DELETE'
-    });
-    // Fires the retrieveTasks function on the Dashboard
-    props.refresh();
-  }
-
+const ClientItem = ({ id, clientName, pricehour, currency, hoursmonth, onDelete }) => {
   return (
-    <li className="flex py-2 px-4 odd:bg-gray-50 rounded text-gray-500 group">
-      <div className="grow">
-        <p>{props.clientName}</p>
-      </div>
-      <div className="w-[120px] text-right pr-6">
-        <p>{props.pricehour}</p>
-      </div>
-      <div className="w-[50px] pr-2">
-        <p>{props.currency}</p>
-      </div>
-      <div className="w-[180px] text-right">
-        <p>{props.hoursmonth}</p>
-      </div>
-      <div className="hidden group-hover:flex" onClick={deleteHandler} >
-        <img src={trashCan} alt=""/>
+    <li className={`group flex ${tableRowClass}`}>
+      <div className="min-w-0 grow px-2.5">{clientName}</div>
+      <div className="shrink-0 basis-[180px] px-2.5 text-right">{pricehour}</div>
+      <div className="shrink-0 basis-[120px] px-2.5 text-right">{currency}</div>
+      <div className="shrink-0 basis-[180px] px-2.5">
+        <div className="flex items-center justify-end gap-1.5">
+          <span>{hoursmonth}</span>
+          <button
+            type="button"
+            onClick={() => onDelete(id)}
+            className="hidden h-3.5 w-3.5 shrink-0 group-hover:flex"
+            aria-label="Delete client"
+          >
+            <img src={trashCan} alt="" className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
     </li>
   );
