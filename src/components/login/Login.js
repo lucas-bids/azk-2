@@ -3,7 +3,14 @@ import LoginButton from "./LoginButton";
 
 const Login = () => {
   return (
-    <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">
+    <div className="relative flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div className="absolute right-4 top-4 max-w-[320px] rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 shadow-sm md:right-6 md:top-6">
+        <p className="text-sm font-medium text-amber-900">Portfolio prototype</p>
+        <p className="mt-1 text-sm text-amber-800">
+          This experience is for visualization purposes only. Continue as a guest to explore
+          the frontend prototype.
+        </p>
+      </div>
       <div className="w-full max-w-[1040px]">
         <main className="mx-auto flex max-w-[960px] rounded-[24px] bg-white shadow-2xl shadow-gray-200  min-h-[600px]">
           <div className="hidden w-1/2 rounded-l-[24px] bg-liquid bg-cover bg-center md:flex md:flex-col md:items-center md:justify-center md:py-40">
@@ -16,8 +23,9 @@ const Login = () => {
               If you don’t have an account, just select one of the options below and create one.
             </p>
             <div className="flex flex-col gap-3">
-              <LoginButton type="Google" />
-              <LoginButton type="Facebook" />
+              <LoginButton type="Guest" />
+              <LoginButton type="Google" disabled />
+              <LoginButton type="Facebook" disabled />
             </div>
           </div>
         </main>
