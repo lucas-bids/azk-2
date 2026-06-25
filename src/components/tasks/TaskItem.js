@@ -1,10 +1,18 @@
+import { motion } from "framer-motion";
 import trashCan from "../../assets/images/trash-2.svg";
 import { formatDateDisplay } from "../../utils/format";
 import { tableRowClass } from "../UI/uiClasses";
 
 const TaskItem = ({ id, date, client, task, time, onDelete }) => {
   return (
-    <li className={`group flex ${tableRowClass}`}>
+    <motion.li
+      layout
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className={`group flex ${tableRowClass}`}
+    >
       <div className="shrink-0 basis-[210px] px-3">{formatDateDisplay(date)}</div>
       <div className="shrink-0 basis-[280px] px-3">{client}</div>
       <div className="min-w-0 grow px-3">{task}</div>
@@ -21,7 +29,7 @@ const TaskItem = ({ id, date, client, task, time, onDelete }) => {
           </button>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };
 
