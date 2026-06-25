@@ -1,9 +1,17 @@
+import { motion } from "framer-motion";
 import trashCan from "../../assets/images/trash-2.svg";
 import { tableRowClass } from "../UI/uiClasses";
 
 const ClientItem = ({ id, clientName, pricehour, currency, hoursmonth, onDelete }) => {
   return (
-    <li className={`group flex ${tableRowClass}`}>
+    <motion.li
+      layout
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className={`group flex ${tableRowClass}`}
+    >
       <div className="min-w-0 grow px-2.5">{clientName}</div>
       <div className="shrink-0 basis-[180px] px-2.5 text-right">{pricehour}</div>
       <div className="shrink-0 basis-[120px] px-2.5 text-right">{currency}</div>
@@ -20,7 +28,7 @@ const ClientItem = ({ id, clientName, pricehour, currency, hoursmonth, onDelete 
           </button>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

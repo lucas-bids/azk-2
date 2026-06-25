@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Login from "./components/login/Login";
 import Dashboard from "./components/UI/Dashboard.js";
@@ -8,43 +9,24 @@ import AllReports from "./components/reports/AllReports";
 import ReportDetail from "./components/reports/ReportDetail";
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            <Dashboard>
-              <AllTasks />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/clients"
-          element={
-            <Dashboard>
-              <AllClients />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/reports"
-          element={
-            <Dashboard>
-              <AllReports />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/reports/:id"
-          element={
-            <Dashboard>
-              <ReportDetail />
-            </Dashboard>
-          }
-        />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes
+          location={location}
+          key={location.pathname === "/" ? "login" : "app"}
+        >
+          <Route path="/" element={<Login />} />
+          <Route element={<Dashboard />}>
+            <Route path="/dashboard" element={<AllTasks />} />
+            <Route path="/clients" element={<AllClients />} />
+            <Route path="/reports" element={<AllReports />} />
+            <Route path="/reports/:id" element={<ReportDetail />} />
+          </Route>
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }

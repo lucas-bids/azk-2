@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../header/PageHeader";
@@ -113,24 +114,31 @@ const AllReports = () => {
 
       <section className="mt-8">
         <SectionHeader title="Your reports" />
-        <div className="mt-4 grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
-          {savedReports.map((report, index) => (
-            <button
-              key={report.id}
-              type="button"
-              onClick={() => navigate(`/reports/${report.id}`)}
-              className={`min-h-[190px] rounded-[22px] p-5 text-left text-white ${
-                reportCardStyles[index % reportCardStyles.length]
-              }`}
-            >
-              <p className="text-lg font-medium">{report.title}</p>
-              <p className="mt-3 text-base font-light leading-7">
-                {report.clients.map((client) => client.client.replace(".org", "")).join(", ")}
-              </p>
-              <p className="mt-6 text-base font-medium">Currency: {report.currency}</p>
-            </button>
-          ))}
-        </div>
+        <motion.div layout className="mt-4 grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
+          <AnimatePresence initial={false}>
+            {savedReports.map((report, index) => (
+              <motion.button
+                key={report.id}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                type="button"
+                onClick={() => navigate(`/reports/${report.id}`)}
+                className={`min-h-[190px] rounded-[22px] p-5 text-left text-white ${
+                  reportCardStyles[index % reportCardStyles.length]
+                }`}
+              >
+                <p className="text-lg font-medium">{report.title}</p>
+                <p className="mt-3 text-base font-light leading-7">
+                  {report.clients.map((client) => client.client.replace(".org", "")).join(", ")}
+                </p>
+                <p className="mt-6 text-base font-medium">Currency: {report.currency}</p>
+              </motion.button>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </section>
     </>
   );
